@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>신을 대신한 신 - OST Album</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;padding:24px 15px;background:#0b1020;color:#fff;font-family:Arial,sans-serif}
+main{max-width:720px;margin:auto}
+header{padding:25px;background:linear-gradient(140deg,#39365f,#171d32);border-radius:22px}
+h1{font-size:32px;margin:12px 0}
+p{color:#c5c7d8}
+audio{width:100%;margin:18px 0}
+button{padding:12px 16px;border:0;border-radius:22px;background:#c6a7ff;color:#17152b;font-weight:bold;margin:4px}
+.track{display:flex;align-items:center;gap:10px;padding:13px 7px;border-bottom:1px solid #ffffff20}
+.track span{flex:1;overflow-wrap:anywhere}
+.track button{margin:0}
+#tracks{margin-top:20px;background:#171d30;border-radius:18px;padding:12px}
+.small{font-size:13px;color:#b9bfd2}
+</style>
+</head>
+<body>
+<main>
+<header>
+<div class="small">SPECIAL OST · 22 TRACKS</div>
+<h1>신을 대신한 신</h1>
+<p>The God Beyond God</p>
+<audio id="audio" controls preload="metadata"></audio>
+<div>
+<button onclick="playAll()">전체 순차 재생</button>
+<button onclick="previous()">이전 곡</button>
+<button onclick="next()">다음 곡</button>
+</div>
+<p id="status">앨범 음원 목록을 불러오는 중입니다.</p>
+</header>
+<h2>수록곡</h2>
+<div id="tracks">음원 목록 확인 중...</div>
+<p class="small">음원은 Internet Archive에서 재생됩니다.</p>
+<a style="color:#c6a7ff" href="https://archive.org/details/15-the-god-beyond-god-part-14-forgotten-name" target="_blank">원본 앨범 페이지 열기</a>
+</main>
+<script>
+const ID="15-the-god-beyond-god-part-14-forgotten-name";
+const BASE="https://archive.org/download/"+ID+"/";
+const META="https://archive.org/metadata/"+ID;
+const audio=document.getElementById("audio");
+const list=document.getElementById("tracks");
+const status=document.getElementById("status");
+let songs=[],index=-1,auto=false;
+function url(n){return BASE+n.split("/").map(encodeURIComponent).join("/")}
+function name(n){return n.split("/").pop().replace(/\.[^.]+$/,"").replace(/[_-]+/g," ")}
+function draw(){
+list.innerHTML="";
+songs.forEach((s,i)=>{
+let row=document.createElement("div");row.className="track";
+let label=document.createElement("span");label.textContent=(i+1)+". "+name(s);
+let b=document.createElement("button");b.textContent="재생";
+b.onclick=()=>play(i);
+row.append(label,b);list.append(row);
+});
+}
+function play(i){
+if(!songs.length)return;
+index=i;audio.src=url(songs[i]);audio.play().catch(()=>status.textContent="재생 버튼을 한 번 더 눌러 주세요.");
+status.textContent=(index+1)+" / "+songs.length+"곡 · "+name(songs[index]);
+}
+function playAll(){if(songs.length){auto=true;play(0)}}
+function next(){auto=false;if(songs.length)play(Math.min(index+1,songs.length-1))}
+function previous(){auto=false;if(songs.length)play(Math.max(index-1,0))}
+audio.onended=()=>{if(auto&&index<songs.length-1)play(index+1);else{auto=false;status.textContent="앨범 재생이 끝났습니다."}};
+async function init(){
+try{
+let r=await fetch(META);
+if(!r.ok)throw Error("metadata");
+let d=await r.json();
+songs=(d.files||[]).filter(f=>f.name&&/\.(mp3|m4a|aac|ogg|oga|wav|flac)$/i.test(f.name)&&!f.name.startsWith("__")).map(f=>f.name).sort((a,b)=>a.localeCompare(b,undefined,{numeric:true,sensitivity:"base"}));
+if(!songs.length){list.textContent="이 항목에서 음원 파일을 찾지 못했습니다. 업로드된 음원이 다른 항목에 있는지 확인해 주세요.";status.textContent="음원 파일 없음";return}
+draw();
+status.textContent="총 "+songs.length+"곡을 불러왔습니다.";
+}catch(e){list.textContent="음원 목록을 불러오지 못했습니다. 원본 앨범 페이지를 확인해 주세요.";status.textContent="앨범 연결 오류";}
+}
+init();
+</script>
+</body>
+</html>
