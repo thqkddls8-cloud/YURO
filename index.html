@@ -337,43 +337,44 @@ main {
 }
 
 
-/* =====================================
+/* ==================================
    DIVINE LYRICS
-===================================== */
+   작은 2줄 가사 박스
+================================== */
 
 .lyrics-section {
     width: 100%;
     max-width: 760px;
-    margin: 45px auto;
+    margin: 35px auto;
 }
 
 .lyrics-heading {
     text-align: center;
-    margin-bottom: 20px;
+    margin-bottom: 15px;
 }
 
 .lyrics-heading h2 {
     font-family: 'Cinzel',serif;
-    font-size: 20px;
+    font-size: 18px;
     letter-spacing: 6px;
     font-weight: 400;
     color: #e8ce91;
 }
 
 .lyrics-heading p {
-    font-size: 12px;
+    font-size: 11px;
     color: #bba779;
     letter-spacing: 2px;
 }
 
 
-/* LYRICS BOX */
+/* 가사 박스 */
 
 .lyrics-window {
 
     position: relative;
 
-    height: 390px;
+    height: 130px;
 
     overflow: hidden;
 
@@ -392,26 +393,29 @@ main {
     border: 1px solid rgba(215,180,100,.45);
 
     box-shadow:
-        0 0 30px rgba(215,180,100,.12),
-        inset 0 0 50px rgba(0,0,0,.7);
+        0 0 25px rgba(215,180,100,.12),
+        inset 0 0 30px rgba(0,0,0,.7);
 
     scroll-behavior: smooth;
-
 }
 
 
-/* TOP AND BOTTOM FADE */
+/* 위쪽 페이드 */
 
 .lyrics-window::before {
+
     content: "";
+
     position: absolute;
+
     top: 0;
     left: 0;
     right: 0;
 
-    height: 90px;
+    height: 25px;
 
     z-index: 5;
+
     pointer-events: none;
 
     background: linear-gradient(
@@ -419,18 +423,26 @@ main {
         #101522,
         transparent
     );
+
 }
 
+
+/* 아래쪽 페이드 */
+
 .lyrics-window::after {
+
     content: "";
+
     position: absolute;
+
     bottom: 0;
     left: 0;
     right: 0;
 
-    height: 90px;
+    height: 25px;
 
     z-index: 5;
+
     pointer-events: none;
 
     background: linear-gradient(
@@ -438,14 +450,15 @@ main {
         #080a12,
         transparent
     );
+
 }
 
 
-/* LYRICS CONTENT */
+/* 가사 전체 영역 */
 
 .lyrics-lines {
 
-    padding: 220px 20px 230px;
+    padding: 45px 15px 65px;
 
     text-align: center;
 
@@ -454,13 +467,13 @@ main {
 }
 
 
-/* EACH LINE */
+/* 가사 한 줄 */
 
 .lyric-line {
 
-    min-height: 48px;
+    min-height: 32px;
 
-    margin: 12px 0;
+    margin: 4px 0;
 
     display: flex;
 
@@ -468,9 +481,9 @@ main {
 
     justify-content: center;
 
-    font-size: 17px;
+    font-size: 14px;
 
-    line-height: 1.9;
+    line-height: 1.6;
 
     letter-spacing: 1px;
 
@@ -489,7 +502,7 @@ main {
 }
 
 
-/* CURRENT LYRIC */
+/* 현재 재생 가사 */
 
 .lyric-line.active {
 
@@ -497,7 +510,7 @@ main {
 
     opacity: 1;
 
-    transform: scale(1.04);
+    transform: scale(1.03);
 
     text-shadow:
         0 0 10px rgba(244,215,151,.6),
@@ -506,7 +519,7 @@ main {
 }
 
 
-/* PREVIOUS LYRIC */
+/* 지나간 가사 */
 
 .lyric-line.past {
 
@@ -517,7 +530,7 @@ main {
 }
 
 
-/* NEXT LYRICS */
+/* 다음 가사 */
 
 .lyric-line.future {
 
@@ -526,7 +539,7 @@ main {
 }
 
 
-/* LYRICS MESSAGE */
+/* 가사 안내문 */
 
 .lyrics-message {
 
@@ -543,16 +556,14 @@ main {
 
     color: #bba779;
 
-    font-size: 13px;
+    font-size: 11px;
 
-    line-height: 2;
+    line-height: 1.8;
 
 }
 
 
-/* =====================================
-   TRACK LIST
-===================================== */
+/* TRACK LIST */
 
 .track-list-details {
 
@@ -587,55 +598,81 @@ main {
 }
 
 .track {
+
     display: flex;
+
     align-items: center;
+
     gap: 14px;
 
     padding: 12px 8px;
 
     border-bottom: 1px solid rgba(215,180,100,.15);
+
 }
 
 .track.active {
+
     background: rgba(215,180,100,.13);
+
 }
 
 .track-thumb {
+
     width: 55px;
     height: 55px;
 
     object-fit: cover;
 
     border: 1px solid rgba(215,180,100,.4);
+
 }
 
 .track-number {
+
     color: var(--gold);
+
     font-size: 12px;
+
 }
 
 .track-name {
+
     flex: 1;
+
     font-size: 12px;
+
     overflow-wrap: anywhere;
+
 }
 
 .track button {
+
     border: 1px solid rgba(210,180,110,.4);
+
     background: transparent;
+
     color: var(--gold);
+
     padding: 8px 13px;
+
     cursor: pointer;
+
 }
 
 
 /* STATUS */
 
 #status {
+
     text-align: center;
+
     margin: 20px 0;
+
     font-size: 12px;
+
     color: var(--gold);
+
 }
 
 
@@ -663,61 +700,100 @@ main {
 }
 
 .player-inner {
+
     max-width: 850px;
+
     margin: auto;
+
 }
 
 .player-top {
+
     display: flex;
+
     align-items: center;
+
     gap: 12px;
+
 }
 
 .player-thumb {
+
     width: 45px;
     height: 45px;
+
     object-fit: cover;
+
 }
 
 .player-title {
+
     flex: 1;
+
     font-size: 12px;
+
     color: var(--gold-light);
+
 }
 
 .progress-area {
+
     display: flex;
+
     align-items: center;
+
     gap: 10px;
+
     margin-top: 10px;
+
     font-size: 10px;
+
     color: #9b8a67;
+
 }
 
 #seek {
+
     flex: 1;
+
     accent-color: #d8b66c;
+
 }
 
 .controls {
+
     display: flex;
+
     align-items: center;
+
     justify-content: center;
+
     gap: 23px;
+
     margin: 10px 0;
+
 }
 
 .controls button {
+
     background: none;
+
     border: none;
+
     color: #d7bc7c;
+
     font-size: 21px;
+
     cursor: pointer;
+
 }
 
 .controls .play-button {
+
     width: 45px;
+
     height: 45px;
+
     border-radius: 50%;
 
     background: linear-gradient(
@@ -727,58 +803,94 @@ main {
     );
 
     color: #15100a;
+
 }
 
 .volume-area {
+
     display: flex;
+
     justify-content: center;
+
     align-items: center;
+
     gap: 10px;
+
     font-size: 10px;
+
     color: #a89468;
+
 }
 
 #volume {
+
     width: 100px;
+
 }
 
 footer {
+
     text-align: center;
+
     padding: 40px 15px 220px;
 
     font-family: 'Cinzel',serif;
+
     font-size: 10px;
+
     letter-spacing: 4px;
+
     color: #82704b;
+
 }
 
+
+/* MOBILE */
 
 @media(max-width:600px) {
 
     .hero {
+
         min-height: 750px;
+
         padding-top: 45px;
+
     }
 
     .hero h1 {
+
         letter-spacing: 3px;
+
     }
 
+    /* 모바일도 130px 유지 */
+
     .lyrics-window {
-        height: 350px;
+
+        height: 130px;
+
     }
 
     .lyric-line {
-        font-size: 15px;
+
+        font-size: 13px;
+
+        min-height: 30px;
+
     }
 
     .controls {
+
         gap: 17px;
+
     }
 
     .track-thumb {
+
         width: 48px;
+
         height: 48px;
+
     }
 
 }
@@ -922,9 +1034,7 @@ class="current-track-title">
 </div>
 
 
-<!-- =================================
-     LYRICS BOX
-================================= -->
+<!-- DIVINE LYRICS -->
 
 <section class="lyrics-section">
 
@@ -938,7 +1048,6 @@ class="current-track-title">
 
 </div>
 
-
 <div
 class="lyrics-window"
 id="lyricsWindow">
@@ -947,7 +1056,6 @@ id="lyricsWindow">
 class="lyrics-lines"
 id="lyricsLines">
 </div>
-
 
 <div
 class="lyrics-message"
@@ -1090,9 +1198,7 @@ value="0.8">
 <script>
 
 
-/* =====================================
-   AUDIO SERVER
-===================================== */
+/* AUDIO SERVER */
 
 const AUDIO_ID =
 "15-the-god-beyond-god-part-14-forgotten-name";
@@ -1142,8 +1248,6 @@ let activeLayer = 0;
 
 let currentVisualSrc = "images/album-cover.png";
 
-let currentFinalShot = false;
-
 let activeLyricIndex = -1;
 
 let lyricsData = [];
@@ -1181,9 +1285,7 @@ function getTrackImage(number) {
 }
 
 
-/* =====================================
-   CINEMATIC IMAGE ENGINE
-===================================== */
+/* CINEMATIC IMAGE ENGINE */
 
 function showVisual(src, finalShot = false) {
 
@@ -1200,13 +1302,8 @@ function showVisual(src, finalShot = false) {
         finalShot
     );
 
-    if (src === currentVisualSrc) {
+    if (src === currentVisualSrc) return;
 
-        currentFinalShot = finalShot;
-
-        return;
-
-    }
 
     const oldLayer = layers[activeLayer];
 
@@ -1238,8 +1335,6 @@ function showVisual(src, finalShot = false) {
 
         this.src = "images/album-cover.png";
 
-        currentVisualSrc = "images/album-cover.png";
-
         reveal();
 
     };
@@ -1256,8 +1351,6 @@ function showVisual(src, finalShot = false) {
 
     currentVisualSrc = src;
 
-    currentFinalShot = finalShot;
-
     document.getElementById("visualCaption")
         .textContent = finalShot
         ? "RETURN TO ORIGIN"
@@ -1266,9 +1359,7 @@ function showVisual(src, finalShot = false) {
 }
 
 
-/* =====================================
-   IMAGE SEQUENCE
-===================================== */
+/* IMAGE SEQUENCE */
 
 function updateSlideshow() {
 
@@ -1318,9 +1409,7 @@ function updateSlideshow() {
 }
 
 
-/* =====================================
-   LRC PARSER
-===================================== */
+/* LRC PARSER */
 
 function parseLRC(text) {
 
@@ -1398,9 +1487,7 @@ function parseLRC(text) {
 }
 
 
-/* =====================================
-   LOAD LYRICS
-===================================== */
+/* LOAD LYRICS */
 
 async function loadLyrics(trackNumber) {
 
@@ -1507,7 +1594,6 @@ async function loadLyrics(trackNumber) {
         lyricsMessage.style.display = "block";
 
         lyricsMessage.textContent =
-
             "아직 이 곡의 가사 파일이 준비되지 않았습니다.";
 
     }
@@ -1515,9 +1601,7 @@ async function loadLyrics(trackNumber) {
 }
 
 
-/* =====================================
-   RENDER LYRICS
-===================================== */
+/* RENDER LYRICS */
 
 function renderLyrics() {
 
@@ -1541,9 +1625,7 @@ function renderLyrics() {
 }
 
 
-/* =====================================
-   SYNC LYRICS
-===================================== */
+/* SYNC LYRICS */
 
 function updateLyrics() {
 
@@ -1657,9 +1739,7 @@ function updateLyrics() {
 }
 
 
-/* =====================================
-   TRACK LIST
-===================================== */
+/* TRACK LIST */
 
 function getName(filename) {
 
@@ -1746,9 +1826,7 @@ function drawTracks() {
 }
 
 
-/* =====================================
-   PLAY
-===================================== */
+/* PLAY */
 
 async function play(i) {
 
@@ -1829,9 +1907,7 @@ async function play(i) {
 }
 
 
-/* =====================================
-   OPEN ALBUM
-===================================== */
+/* OPEN ALBUM */
 
 function openAlbum() {
 
@@ -1849,9 +1925,7 @@ function openAlbum() {
 }
 
 
-/* =====================================
-   PLAY PAUSE
-===================================== */
+/* PLAY PAUSE */
 
 function togglePlay() {
 
@@ -1879,9 +1953,7 @@ function togglePlay() {
 }
 
 
-/* =====================================
-   NEXT
-===================================== */
+/* NEXT */
 
 async function next() {
 
@@ -1930,9 +2002,7 @@ async function next() {
 }
 
 
-/* =====================================
-   PREVIOUS
-===================================== */
+/* PREVIOUS */
 
 async function previous() {
 
@@ -1967,9 +2037,7 @@ async function previous() {
 }
 
 
-/* =====================================
-   AUDIO EVENTS
-===================================== */
+/* AUDIO EVENTS */
 
 audio.addEventListener("play",function() {
 
@@ -2057,9 +2125,7 @@ audio.addEventListener("ended",async function() {
 });
 
 
-/* =====================================
-   SEEK
-===================================== */
+/* SEEK */
 
 const seek = document.getElementById("seek");
 
@@ -2089,9 +2155,7 @@ seek.addEventListener("change",function() {
 });
 
 
-/* =====================================
-   VOLUME
-===================================== */
+/* VOLUME */
 
 document.getElementById("volume")
 .addEventListener("input",function(e) {
@@ -2103,9 +2167,7 @@ document.getElementById("volume")
 audio.volume = 0.8;
 
 
-/* =====================================
-   SHUFFLE
-===================================== */
+/* SHUFFLE */
 
 document.getElementById("shuffle")
 .onclick = function() {
@@ -2118,9 +2180,7 @@ document.getElementById("shuffle")
 };
 
 
-/* =====================================
-   REPEAT
-===================================== */
+/* REPEAT */
 
 document.getElementById("repeat")
 .onclick = function() {
@@ -2136,9 +2196,7 @@ document.getElementById("repeat")
 };
 
 
-/* =====================================
-   LOAD MUSIC
-===================================== */
+/* LOAD MUSIC */
 
 async function init() {
 
@@ -2232,4 +2290,5 @@ init();
 </script>
 
 </body>
+
 </html>
