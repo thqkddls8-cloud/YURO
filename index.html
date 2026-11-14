@@ -16,6 +16,10 @@
 
 <style>
 
+/* =====================================
+   BASIC
+===================================== */
+
 * {
     box-sizing: border-box;
 }
@@ -36,6 +40,11 @@ body {
     overflow-x: hidden;
 }
 
+
+/* =====================================
+   FANTASY BACKGROUND
+===================================== */
+
 body::before {
     content: "";
     position: fixed;
@@ -45,7 +54,7 @@ body::before {
     background:
     radial-gradient(
         ellipse at 50% 20%,
-        rgba(190,148,66,.18),
+        rgba(190,148,66,.2),
         transparent 55%
     ),
     linear-gradient(
@@ -79,7 +88,9 @@ body::before {
 }
 
 
-/* HERO */
+/* =====================================
+   HERO
+===================================== */
 
 .hero {
     min-height: 850px;
@@ -89,6 +100,7 @@ body::before {
     justify-content: center;
 
     text-align: center;
+
     padding: 65px 20px 100px;
 }
 
@@ -98,7 +110,9 @@ body::before {
 }
 
 
-/* TIKTOK */
+/* =====================================
+   TIKTOK
+===================================== */
 
 .tiktok-link {
     display: inline-block;
@@ -120,9 +134,7 @@ body::before {
 
     text-shadow: 0 0 12px var(--neon);
 
-    box-shadow:
-    0 0 12px rgba(200,255,0,.5),
-    0 0 30px rgba(200,255,0,.2);
+    box-shadow: 0 0 20px rgba(200,255,0,.3);
 
     animation: neon 2s infinite alternate;
 }
@@ -133,7 +145,9 @@ body::before {
 }
 
 
-/* ALBUM COVER */
+/* =====================================
+   ALBUM COVER
+===================================== */
 
 .cover-button {
     display: block;
@@ -159,10 +173,6 @@ body::before {
 
 .cover-button:hover {
     transform: scale(1.025);
-
-    box-shadow:
-    0 0 35px rgba(218,174,87,.6),
-    0 0 80px rgba(218,174,87,.3);
 }
 
 .album-cover {
@@ -172,7 +182,9 @@ body::before {
 }
 
 
-/* TITLE */
+/* =====================================
+   TITLE
+===================================== */
 
 .eyebrow {
     font-family: 'Cinzel', serif;
@@ -191,9 +203,7 @@ body::before {
 
     color: #fff0ca;
 
-    text-shadow:
-    0 0 15px rgba(255,220,150,.4),
-    0 0 40px rgba(218,174,87,.3);
+    text-shadow: 0 0 25px rgba(218,174,87,.4);
 }
 
 .english-title {
@@ -221,9 +231,7 @@ body::before {
 
     color: #ffe7a8;
 
-    text-shadow:
-    0 0 10px #fff0c5,
-    0 0 25px rgba(235,195,105,.8);
+    text-shadow: 0 0 20px rgba(235,195,105,.8);
 }
 
 .divider {
@@ -269,7 +277,9 @@ body::before {
 }
 
 
-/* MAIN */
+/* =====================================
+   MAIN
+===================================== */
 
 main {
     width: min(900px, 92%);
@@ -300,78 +310,313 @@ main {
 }
 
 
-/* NOW PLAYING IMAGE */
+/* =====================================
+   CINEMATIC IMAGE SCREEN
+===================================== */
 
-.now-playing-card {
-    margin: 35px auto;
+.visual-frame {
 
-    width: min(480px, 100%);
-
-    padding: 15px;
-
-    background: rgba(20,22,32,.85);
-
-    border: 1px solid rgba(215,180,100,.4);
-
-    box-shadow: 0 0 35px rgba(0,0,0,.5);
-
-    text-align: center;
-}
-
-.current-artwork {
-    display: block;
+    position: relative;
 
     width: 100%;
-    aspect-ratio: 1 / 1;
+    max-width: 760px;
 
-    object-fit: contain;
+    margin: 35px auto;
 
-    background: #090b13;
+    aspect-ratio: 16 / 9;
 
-    border: 1px solid rgba(215,180,100,.2);
+    overflow: hidden;
 
-    transition: opacity .4s;
+    background: #05060b;
+
+    border: 1px solid rgba(215,180,100,.5);
+
+    box-shadow:
+    0 0 30px rgba(215,180,100,.2),
+    0 0 80px rgba(0,0,0,.8);
+
+    transition: box-shadow 1.5s ease;
 }
 
-.current-track-label {
-    margin-top: 20px;
 
-    color: var(--gold);
+/* IMAGE LAYERS */
+
+.visual-image {
+
+    position: absolute;
+
+    inset: 0;
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+
+    opacity: 0;
+
+    transform: scale(1.02);
+
+    filter: brightness(.55);
+
+    transition:
+        opacity 2s ease,
+        transform 15s linear,
+        filter 2s ease;
+
+}
+
+.visual-image.visible {
+
+    opacity: 1;
+
+    transform: scale(1.12);
+
+    filter: brightness(1);
+
+}
+
+
+/* CINEMATIC SILHOUETTE */
+
+.visual-frame::before {
+
+    content: "";
+
+    position: absolute;
+
+    inset: 0;
+
+    z-index: 3;
+
+    pointer-events: none;
+
+    background:
+    linear-gradient(
+        180deg,
+        rgba(0,0,0,.12),
+        transparent 30%,
+        transparent 65%,
+        rgba(0,0,0,.45)
+    );
+
+}
+
+
+/* DARK CINEMA VIGNETTE */
+
+.visual-frame::after {
+
+    content: "";
+
+    position: absolute;
+
+    inset: 0;
+
+    z-index: 4;
+
+    pointer-events: none;
+
+    box-shadow:
+    inset 0 0 65px rgba(0,0,0,.65);
+
+}
+
+
+/* GOLDEN PARTICLES */
+
+.gold-dust {
+
+    position: absolute;
+
+    inset: 0;
+
+    z-index: 5;
+
+    pointer-events: none;
+
+    opacity: .55;
+
+    background-image:
+
+    radial-gradient(
+        2px 2px at 15% 25%,
+        #ffe7a8,
+        transparent
+    ),
+
+    radial-gradient(
+        2px 2px at 70% 35%,
+        #fff1bd,
+        transparent
+    ),
+
+    radial-gradient(
+        2px 2px at 45% 75%,
+        #d8b66c,
+        transparent
+    ),
+
+    radial-gradient(
+        1px 1px at 85% 80%,
+        #fff,
+        transparent
+    );
+
+    background-size: 260px 220px;
+
+    animation: dust 12s linear infinite;
+
+}
+
+@keyframes dust {
+
+    from {
+        background-position: 0 0;
+    }
+
+    to {
+        background-position: 260px -220px;
+    }
+
+}
+
+
+/* TRANSITION DARKNESS */
+
+.visual-frame.transitioning {
+
+    box-shadow:
+    0 0 45px rgba(215,180,100,.45),
+    0 0 100px rgba(215,180,100,.15);
+
+}
+
+
+/* FINAL IMAGE */
+
+.visual-frame.final-shot {
+
+    box-shadow:
+    0 0 40px rgba(244,215,151,.65),
+    0 0 100px rgba(215,180,100,.35);
+
+}
+
+.visual-frame.final-shot .gold-dust {
+
+    opacity: .9;
+
+}
+
+
+/* VISUAL CAPTION */
+
+.visual-caption {
+
+    position: absolute;
+
+    z-index: 6;
+
+    bottom: 18px;
+
+    left: 20px;
+    right: 20px;
+
+    text-align: center;
 
     font-family: 'Cinzel', serif;
 
     font-size: 11px;
 
     letter-spacing: 4px;
+
+    color: #f4dfaa;
+
+    text-shadow: 0 0 15px #000;
+
+    pointer-events: none;
+
+}
+
+
+/* =====================================
+   NOW PLAYING
+===================================== */
+
+.now-playing-info {
+
+    text-align: center;
+
+    margin: 25px auto 40px;
+
+}
+
+.current-track-label {
+
+    font-family: 'Cinzel', serif;
+
+    font-size: 11px;
+
+    letter-spacing: 5px;
+
+    color: var(--gold);
+
 }
 
 .current-track-title {
-    margin-top: 10px;
 
-    font-size: 15px;
+    margin-top: 12px;
+
+    font-size: 16px;
 
     color: #fff0ca;
+
+}
+
+.current-scene {
+
+    margin-top: 10px;
+
+    font-size: 10px;
+
+    letter-spacing: 3px;
+
+    color: #a89568;
+
 }
 
 
-/* STATUS */
+/* =====================================
+   STATUS
+===================================== */
 
 #status {
+
     text-align: center;
+
     margin: 20px 0;
+
     font-size: 12px;
+
     color: var(--gold);
+
 }
 
 
-/* SEARCH */
+/* =====================================
+   SEARCH
+===================================== */
 
 .search-box {
+
     margin: 30px 0;
+
 }
 
 .search-box input {
+
     width: 100%;
+
     padding: 15px;
 
     background: rgba(15,17,26,.85);
@@ -383,18 +628,26 @@ main {
     outline: none;
 
     font-family: inherit;
+
 }
 
 
-/* TRACK LIST */
+/* =====================================
+   TRACK LIST
+===================================== */
 
 #tracks {
+
     border-top: 1px solid rgba(215,180,100,.3);
+
 }
 
 .track {
+
     display: flex;
+
     align-items: center;
+
     gap: 14px;
 
     padding: 12px 8px;
@@ -402,17 +655,23 @@ main {
     border-bottom: 1px solid rgba(215,180,100,.15);
 
     transition: .25s;
+
 }
 
 .track:hover {
+
     background: rgba(215,180,100,.07);
+
 }
 
 .track.active {
+
     background: rgba(215,180,100,.13);
+
 }
 
 .track-thumb {
+
     width: 65px;
     height: 65px;
 
@@ -421,18 +680,23 @@ main {
     border: 1px solid rgba(215,180,100,.4);
 
     background: #111;
+
 }
 
 .track-number {
+
     min-width: 25px;
 
     font-family: 'Cinzel', serif;
 
     color: var(--gold);
+
     font-size: 12px;
+
 }
 
 .track-name {
+
     flex: 1;
 
     font-size: 13px;
@@ -440,13 +704,17 @@ main {
     color: #eee2c9;
 
     overflow-wrap: anywhere;
+
 }
 
 .track.active .track-name {
+
     color: #f4d88e;
+
 }
 
 .track button {
+
     border: 1px solid rgba(210,180,110,.4);
 
     background: transparent;
@@ -456,12 +724,16 @@ main {
     padding: 8px 13px;
 
     cursor: pointer;
+
 }
 
 
-/* PLAYER */
+/* =====================================
+   FIXED MUSIC PLAYER
+===================================== */
 
 .player {
+
     position: fixed;
 
     z-index: 100;
@@ -480,29 +752,40 @@ main {
     backdrop-filter: blur(20px);
 
     box-shadow: 0 -10px 40px rgba(0,0,0,.5);
+
 }
 
 .player-inner {
+
     max-width: 850px;
+
     margin: auto;
+
 }
 
 .player-top {
+
     display: flex;
+
     align-items: center;
+
     gap: 12px;
+
 }
 
 .player-thumb {
+
     width: 48px;
     height: 48px;
 
     object-fit: cover;
 
     border: 1px solid var(--gold);
+
 }
 
 .player-title {
+
     flex: 1;
 
     font-size: 12px;
@@ -510,39 +793,57 @@ main {
     color: var(--gold-light);
 
     overflow-wrap: anywhere;
+
 }
 
 .progress-area {
+
     display: flex;
+
     align-items: center;
+
     gap: 10px;
 
     margin-top: 10px;
 
     font-size: 10px;
+
     color: #9b8a67;
+
 }
 
 input[type=range] {
+
     accent-color: #d8b66c;
+
     cursor: pointer;
+
 }
 
 #seek {
+
     flex: 1;
+
 }
 
 .controls {
+
     display: flex;
+
     align-items: center;
+
     justify-content: center;
+
     gap: 23px;
 
     margin: 10px 0;
+
 }
 
 .controls button {
+
     background: none;
+
     border: none;
 
     color: #d7bc7c;
@@ -550,14 +851,19 @@ input[type=range] {
     font-size: 21px;
 
     cursor: pointer;
+
 }
 
 .controls button.active {
+
     color: white;
+
     text-shadow: 0 0 12px #e6c77e;
+
 }
 
 .controls .play-button {
+
     width: 45px;
     height: 45px;
 
@@ -570,26 +876,38 @@ input[type=range] {
     );
 
     color: #15100a;
+
 }
 
 .volume-area {
+
     display: flex;
+
     justify-content: center;
+
     align-items: center;
+
     gap: 10px;
 
     font-size: 10px;
+
     color: #a89468;
+
 }
 
 #volume {
+
     width: 100px;
+
 }
 
 
-/* FOOTER */
+/* =====================================
+   FOOTER
+===================================== */
 
 footer {
+
     text-align: center;
 
     padding: 40px 15px 200px;
@@ -601,46 +919,73 @@ footer {
     letter-spacing: 4px;
 
     color: #82704b;
+
 }
 
 
-/* MOBILE */
+/* =====================================
+   MOBILE
+===================================== */
 
 @media(max-width:600px) {
 
     .hero {
+
         padding-top: 45px;
+
         min-height: 750px;
+
     }
 
     .tiktok-link {
+
         font-size: 15px;
+
         padding: 14px 22px;
+
     }
 
     .hero h1 {
+
         letter-spacing: 3px;
+
     }
 
     .signature {
+
         font-size: 36px;
+
+    }
+
+    .visual-frame {
+
+        aspect-ratio: 16 / 9;
+
     }
 
     .track {
+
         gap: 8px;
+
     }
 
     .track-thumb {
+
         width: 52px;
         height: 52px;
+
     }
 
     .track-name {
+
         font-size: 11px;
+
     }
 
     .controls {
+
         gap: 17px;
+
     }
 
 }
@@ -655,7 +1000,9 @@ footer {
 <div class="stars"></div>
 
 
-<!-- HERO -->
+<!-- =================================
+     HERO
+================================= -->
 
 <section class="hero">
 
@@ -674,11 +1021,11 @@ rel="noopener noreferrer">
 
 
 <div class="eyebrow">
+
 THE DIVINE REALM
+
 </div>
 
-
-<!-- ALBUM COVER -->
 
 <button
 class="cover-button"
@@ -696,8 +1043,11 @@ alt="신을 대신한 신 앨범 표지">
 
 <h1>신을 대신한 신</h1>
 
+
 <div class="english-title">
+
 THE GOD BEYOND GOD
+
 </div>
 
 
@@ -706,7 +1056,9 @@ THE GOD BEYOND GOD
 밀리의 서재 - 글빛탐험가
 
 <span class="signature">
+
 sang hyuk. Yoo
+
 </span>
 
 </div>
@@ -716,7 +1068,9 @@ sang hyuk. Yoo
 
 
 <div class="album-label">
+
 22 TRACKS · ORIGINAL SOUNDTRACK
+
 </div>
 
 
@@ -734,7 +1088,9 @@ onclick="openAlbum()">
 </section>
 
 
-<!-- ALBUM -->
+<!-- =================================
+     ALBUM
+================================= -->
 
 <main>
 
@@ -750,19 +1106,52 @@ onclick="openAlbum()">
 </div>
 
 
-<!-- TRACK ARTWORK -->
+<!-- CINEMATIC IMAGE SCREEN -->
 
-<div class="now-playing-card">
+<div
+class="visual-frame"
+id="visualFrame">
+
 
 <img
-id="currentArtwork"
-class="current-artwork"
+id="visualA"
+class="visual-image visible"
 src="images/album-cover.png"
-alt="현재 재생 이미지">
+alt="천상의 장면">
+
+
+<img
+id="visualB"
+class="visual-image"
+src="images/album-cover.png"
+alt="천상의 장면">
+
+
+<div class="gold-dust"></div>
+
+
+<div
+class="visual-caption"
+id="visualCaption">
+
+THE DIVINE REALM
+
+</div>
+
+
+</div>
+
+
+<!-- NOW PLAYING -->
+
+<div class="now-playing-info">
 
 <div class="current-track-label">
+
 NOW PLAYING
+
 </div>
+
 
 <div
 id="currentTrackTitle"
@@ -772,13 +1161,27 @@ class="current-track-title">
 
 </div>
 
+
+<div
+id="currentScene"
+class="current-scene">
+
+THE DIVINE JOURNEY
+
+</div>
+
+
 </div>
 
 
 <div id="status">
+
 음원 목록을 불러오는 중입니다.
+
 </div>
 
+
+<!-- SEARCH -->
 
 <div class="search-box">
 
@@ -789,6 +1192,8 @@ placeholder="수록곡 검색...">
 
 </div>
 
+
+<!-- TRACK LIST -->
 
 <div id="tracks"></div>
 
@@ -818,7 +1223,9 @@ A JOURNEY BEYOND THE DIVINE
 <audio id="audio" preload="metadata"></audio>
 
 
-<!-- PLAYER -->
+<!-- =================================
+     PLAYER
+================================= -->
 
 <div class="player">
 
@@ -831,7 +1238,8 @@ A JOURNEY BEYOND THE DIVINE
 id="playerArtwork"
 class="player-thumb"
 src="images/album-cover.png"
-alt="재생 중인 곡">
+alt="앨범 이미지">
+
 
 <div
 id="current"
@@ -863,12 +1271,18 @@ value="0">
 <div class="controls">
 
 <button id="shuffle" title="셔플">
+
 ⤨
+
 </button>
 
+
 <button onclick="previous()" title="이전 곡">
+
 ⏮
+
 </button>
+
 
 <button
 class="play-button"
@@ -879,12 +1293,18 @@ id="playBtn">
 
 </button>
 
+
 <button onclick="next()" title="다음 곡">
+
 ⏭
+
 </button>
 
+
 <button id="repeat" title="반복">
+
 ↻
+
 </button>
 
 </div>
@@ -913,26 +1333,36 @@ value="0.8">
 <script>
 
 
-/* =================================
+/* =====================================
    AUDIO SERVER
-================================= */
+===================================== */
 
-const ID =
+const AUDIO_ID =
 "15-the-god-beyond-god-part-14-forgotten-name";
 
-const BASE =
-"https://archive.org/download/" + ID + "/";
+const AUDIO_BASE =
+"https://archive.org/download/" + AUDIO_ID + "/";
 
-const META =
-"https://archive.org/metadata/" + ID;
+const AUDIO_META =
+"https://archive.org/metadata/" + AUDIO_ID;
 
 
-/* =================================
-   IMAGE PATHS
-================================= */
+/* =====================================
+   CINEMATIC SETTINGS
+===================================== */
 
-const ALBUM_COVER =
-"images/album-cover.png";
+const IMAGE_COUNT = 22;
+
+const IMAGE_INTERVAL = 15;
+
+const FINAL_IMAGE_SECONDS = 20;
+
+
+/* =====================================
+   IMAGE PATH
+===================================== */
+
+const ALBUM_COVER = "images/album-cover.png";
 
 
 function getTrackImage(number) {
@@ -944,9 +1374,9 @@ function getTrackImage(number) {
 }
 
 
-/* =================================
+/* =====================================
    VARIABLES
-================================= */
+===================================== */
 
 const audio =
 document.getElementById("audio");
@@ -957,6 +1387,9 @@ document.getElementById("tracks");
 const status =
 document.getElementById("status");
 
+const visualFrame =
+document.getElementById("visualFrame");
+
 
 let songs = [];
 
@@ -964,24 +1397,36 @@ let index = -1;
 
 let shuffled = false;
 
+
 /*
 0 = 반복 없음
-1 = 전체 앨범 반복
+1 = 전체 반복
 2 = 한 곡 반복
 */
 
 let repeatMode = 0;
 
+
+let activeLayer = 0;
+
+let currentVisualSrc = ALBUM_COVER;
+
+let currentFinalShot = false;
+
+let transitionTimer = null;
+
 let isSeeking = false;
 
 
-/* =================================
+/* =====================================
    TIME FORMAT
-================================= */
+===================================== */
 
 function formatTime(seconds) {
 
-    if (!Number.isFinite(seconds)) return "0:00";
+    if (!Number.isFinite(seconds)) {
+        return "0:00";
+    }
 
     const minutes = Math.floor(seconds / 60);
 
@@ -993,9 +1438,9 @@ function formatTime(seconds) {
 }
 
 
-/* =================================
-   FILE NAME
-================================= */
+/* =====================================
+   SONG NAME
+===================================== */
 
 function getName(filename) {
 
@@ -1008,65 +1453,236 @@ function getName(filename) {
 }
 
 
-/* =================================
-   IMAGE UPDATE
-================================= */
+/* =====================================
+   IMAGE TRANSITION
+===================================== */
 
-function updateArtwork(i) {
+function showVisual(src, finalShot = false) {
+
+    const layers = [
+
+        document.getElementById("visualA"),
+
+        document.getElementById("visualB")
+
+    ];
+
+
+    visualFrame.classList.toggle(
+        "final-shot",
+        finalShot
+    );
+
+
+    if (src === currentVisualSrc) {
+
+        currentFinalShot = finalShot;
+
+        return;
+
+    }
+
+
+    const oldLayer = layers[activeLayer];
+
+    const nextLayer = layers[1-activeLayer];
+
+
+    nextLayer.classList.remove("visible");
+
+
+    nextLayer.onload = function() {
+
+        reveal();
+
+    };
+
+
+    nextLayer.onerror = function() {
+
+        this.onerror = null;
+
+        this.src = ALBUM_COVER;
+
+        reveal();
+
+    };
+
+
+    function reveal() {
+
+        requestAnimationFrame(() => {
+
+            nextLayer.classList.add("visible");
+
+            oldLayer.classList.remove("visible");
+
+        });
+
+    }
+
+
+    nextLayer.src = src;
+
+
+    if (nextLayer.complete && nextLayer.naturalWidth > 0) {
+
+        reveal();
+
+    }
+
+
+    activeLayer = 1-activeLayer;
+
+    currentVisualSrc = src;
+
+    currentFinalShot = finalShot;
+
+
+    visualFrame.classList.add("transitioning");
+
+
+    clearTimeout(transitionTimer);
+
+
+    transitionTimer = setTimeout(() => {
+
+        visualFrame.classList.remove("transitioning");
+
+    },2000);
+
+
+    document.getElementById("visualCaption")
+        .textContent = finalShot
+        ? "RETURN TO ORIGIN"
+        : "THE DIVINE JOURNEY";
+
+}
+
+
+/* =====================================
+   CINEMATIC SLIDESHOW ENGINE
+===================================== */
+
+function updateSlideshow(force = false) {
+
+    if (index < 0) return;
+
+
+    let imageNumber;
+
+    let finalShot = false;
+
+
+    const duration = audio.duration;
+
+    const currentTime = audio.currentTime;
+
+
+    /*
+    20초 전에는 해당 곡의 메인 이미지로 복귀
+    */
+
+    if (
+
+        Number.isFinite(duration) &&
+
+        duration > 0 &&
+
+        duration - currentTime <= FINAL_IMAGE_SECONDS
+
+    ) {
+
+        imageNumber = index + 1;
+
+        finalShot = true;
+
+    }
+
+
+    /*
+    일반 재생 중에는 15초마다 다음 이미지
+    */
+
+    else {
+
+        const step = Math.floor(
+            currentTime / IMAGE_INTERVAL
+        );
+
+
+        imageNumber =
+            ((index + step) % IMAGE_COUNT) + 1;
+
+    }
+
+
+    const imagePath =
+        getTrackImage(imageNumber);
+
+
+    if (
+
+        force ||
+
+        imagePath !== currentVisualSrc ||
+
+        finalShot !== currentFinalShot
+
+    ) {
+
+        showVisual(imagePath,finalShot);
+
+    }
+
+
+    document.getElementById("currentScene")
+        .textContent = finalShot
+        ? "RETURNING TO THE ORIGINAL WORLD"
+        : "SCENE " +
+            String(imageNumber).padStart(2,"0") +
+            " · THE DIVINE REALM";
+
+}
+
+
+/* =====================================
+   PLAYER IMAGE
+===================================== */
+
+function updatePlayerArtwork(i) {
 
     const imagePath = getTrackImage(i+1);
-
-    const title = getName(songs[i].name);
-
-
-    const currentImage =
-        document.getElementById("currentArtwork");
 
     const playerImage =
         document.getElementById("playerArtwork");
 
 
-    currentImage.onerror = function() {
-
-        this.onerror = null;
-        this.src = ALBUM_COVER;
-
-    };
-
-
     playerImage.onerror = function() {
 
         this.onerror = null;
+
         this.src = ALBUM_COVER;
 
     };
 
 
-    currentImage.src = imagePath;
-
     playerImage.src = imagePath;
-
-
-    currentImage.alt = title;
-
-    playerImage.alt = title;
-
-
-    document.getElementById("currentTrackTitle")
-        .textContent = title;
 
 }
 
 
-/* =================================
+/* =====================================
    TRACK LIST
-================================= */
+===================================== */
 
 function drawTracks() {
 
     tracksElement.innerHTML = "";
 
+
     const query =
+
         document.getElementById("search")
         .value.toLowerCase();
 
@@ -1075,8 +1691,11 @@ function drawTracks() {
 
         const title = getName(song.name);
 
+
         if (!title.toLowerCase().includes(query)) {
+
             return;
+
         }
 
 
@@ -1084,8 +1703,11 @@ function drawTracks() {
 
         row.className = "track";
 
+
         if (i === index) {
+
             row.classList.add("active");
+
         }
 
 
@@ -1098,6 +1720,7 @@ function drawTracks() {
         image.alt = title;
 
         image.loading = "lazy";
+
 
         image.onerror = function() {
 
@@ -1126,18 +1749,25 @@ function drawTracks() {
         const button = document.createElement("button");
 
         button.textContent =
+
             i === index && !audio.paused
             ? "재생 중"
             : "재생";
+
 
         button.onclick = () => play(i);
 
 
         row.append(
+
             image,
+
             number,
+
             name,
+
             button
+
         );
 
 
@@ -1148,9 +1778,9 @@ function drawTracks() {
 }
 
 
-/* =================================
+/* =====================================
    PLAY MUSIC
-================================= */
+===================================== */
 
 async function play(i) {
 
@@ -1161,14 +1791,19 @@ async function play(i) {
 
     index = i;
 
+
     audio.pause();
 
+
     audio.src =
-        BASE +
+
+        AUDIO_BASE +
+
         songs[i].name
         .split("/")
         .map(encodeURIComponent)
         .join("/");
+
 
     audio.load();
 
@@ -1180,7 +1815,22 @@ async function play(i) {
         .textContent = title;
 
 
-    updateArtwork(i);
+    document.getElementById("currentTrackTitle")
+        .textContent = title;
+
+
+    updatePlayerArtwork(i);
+
+
+    /*
+    새 곡의 메인 이미지부터 시작
+    */
+
+    showVisual(getTrackImage(i+1),false);
+
+
+    updateSlideshow(true);
+
 
     drawTracks();
 
@@ -1191,6 +1841,7 @@ async function play(i) {
 
 
     status.textContent =
+
         "NOW PLAYING · " +
         (i+1) + " / " + songs.length;
 
@@ -1206,61 +1857,45 @@ async function play(i) {
         console.error(error);
 
         status.textContent =
-            "음악 재생에 실패했습니다.";
+            "재생 버튼을 눌러 음악을 시작해 주세요.";
 
     }
 
 }
 
 
-/* =================================
+/* =====================================
    OPEN ALBUM
-================================= */
+===================================== */
 
 function openAlbum() {
 
     document.getElementById("album")
         .scrollIntoView({
+
             behavior:"smooth"
+
         });
 
 
-    if (songs.length) {
+    if (songs.length && index === -1) {
 
         play(0);
 
     }
 
-    else {
-
-        status.textContent =
-            "음원 목록을 불러오는 중입니다.";
-
-    }
-
 }
 
 
-/* =================================
-   PLAY ALL
-================================= */
-
-function playAll() {
-
-    if (songs.length) play(0);
-
-}
-
-
-/* =================================
+/* =====================================
    PLAY / PAUSE
-================================= */
+===================================== */
 
 function togglePlay() {
 
     if (index === -1) {
 
-        playAll();
+        play(0);
 
         return;
 
@@ -1282,28 +1917,26 @@ function togglePlay() {
 }
 
 
-/* =================================
-   NEXT
-================================= */
+/* =====================================
+   NEXT TRACK
+===================================== */
 
 async function next() {
 
     if (!songs.length) return;
 
 
+    let nextIndex;
+
+
     if (index === -1) {
 
-        play(0);
-
-        return;
+        nextIndex = 0;
 
     }
 
 
-    let nextIndex;
-
-
-    if (shuffled && songs.length > 1) {
+    else if (shuffled && songs.length > 1) {
 
         do {
 
@@ -1317,11 +1950,13 @@ async function next() {
 
     }
 
+
     else if (index < songs.length - 1) {
 
         nextIndex = index + 1;
 
     }
+
 
     else if (repeatMode === 1) {
 
@@ -1329,9 +1964,12 @@ async function next() {
 
     }
 
+
     else {
 
         audio.pause();
+
+        showVisual(getTrackImage(index+1),true);
 
         status.textContent =
             "모든 앨범 감상이 끝났습니다.";
@@ -1346,9 +1984,9 @@ async function next() {
 }
 
 
-/* =================================
-   PREVIOUS
-================================= */
+/* =====================================
+   PREVIOUS TRACK
+===================================== */
 
 async function previous() {
 
@@ -1358,6 +1996,8 @@ async function previous() {
     if (audio.currentTime > 3) {
 
         audio.currentTime = 0;
+
+        updateSlideshow(true);
 
         return;
 
@@ -1379,15 +2019,22 @@ async function previous() {
 }
 
 
-/* =================================
-   AUTOMATIC NEXT
-================================= */
+/* =====================================
+   AUTO NEXT
+===================================== */
 
 audio.addEventListener("ended", async function() {
+
+
+    /*
+    한 곡 반복
+    */
 
     if (repeatMode === 2) {
 
         audio.currentTime = 0;
+
+        updateSlideshow(true);
 
         try {
 
@@ -1406,14 +2053,18 @@ audio.addEventListener("ended", async function() {
     }
 
 
+    /*
+    다음 곡 자동 재생
+    */
+
     await next();
 
 });
 
 
-/* =================================
-   PLAYER EVENTS
-================================= */
+/* =====================================
+   AUDIO PLAY EVENT
+===================================== */
 
 audio.addEventListener("play",function() {
 
@@ -1425,6 +2076,10 @@ audio.addEventListener("play",function() {
 });
 
 
+/* =====================================
+   AUDIO PAUSE EVENT
+===================================== */
+
 audio.addEventListener("pause",function() {
 
     document.getElementById("playBtn")
@@ -1435,45 +2090,72 @@ audio.addEventListener("pause",function() {
 });
 
 
+/* =====================================
+   TIME UPDATE
+===================================== */
+
 audio.addEventListener("timeupdate",function() {
 
-    if (!audio.duration || isSeeking) return;
+    if (!audio.duration) return;
 
 
-    document.getElementById("seek").value =
-        audio.currentTime / audio.duration * 1000;
+    /*
+    음악 진행률
+    */
+
+    if (!isSeeking) {
+
+        document.getElementById("seek").value =
+
+            audio.currentTime /
+            audio.duration * 1000;
+
+    }
 
 
-    document.getElementById("elapsed").textContent =
-        formatTime(audio.currentTime);
+    document.getElementById("elapsed")
+        .textContent = formatTime(audio.currentTime);
+
+
+    /*
+    음악 시간에 맞춰 이미지 변경
+    */
+
+    updateSlideshow();
 
 });
 
+
+/* =====================================
+   METADATA
+===================================== */
 
 audio.addEventListener("loadedmetadata",function() {
 
-    document.getElementById("duration").textContent =
-        formatTime(audio.duration);
+    document.getElementById("duration")
+        .textContent = formatTime(audio.duration);
+
+    updateSlideshow(true);
 
 });
 
 
-audio.addEventListener("error",function() {
+/* =====================================
+   SEEKED
+===================================== */
 
-    if (!audio.src) return;
+audio.addEventListener("seeked",function() {
 
-    status.textContent =
-        "음원 파일을 불러오지 못했습니다.";
+    updateSlideshow(true);
 
 });
 
 
-/* =================================
-   SEEK
-================================= */
+/* =====================================
+   SEEK CONTROL
+===================================== */
 
-const seek =
-document.getElementById("seek");
+const seek = document.getElementById("seek");
 
 
 seek.addEventListener("input",function() {
@@ -1488,18 +2170,22 @@ seek.addEventListener("change",function() {
     if (audio.duration) {
 
         audio.currentTime =
+
             seek.value / 1000 * audio.duration;
 
     }
 
+
     isSeeking = false;
+
+    updateSlideshow(true);
 
 });
 
 
-/* =================================
+/* =====================================
    VOLUME
-================================= */
+===================================== */
 
 document.getElementById("volume")
 .addEventListener("input",function(e) {
@@ -1508,35 +2194,44 @@ document.getElementById("volume")
 
 });
 
+
 audio.volume = 0.8;
 
 
-/* =================================
+/* =====================================
    SHUFFLE
-================================= */
+===================================== */
 
 document.getElementById("shuffle")
 .onclick = function() {
 
     shuffled = !shuffled;
 
-    this.classList.toggle("active",shuffled);
+
+    this.classList.toggle(
+        "active",
+        shuffled
+    );
+
 
     status.textContent = shuffled
+
         ? "셔플 재생 활성화"
+
         : "일반 순서 재생";
 
 };
 
 
-/* =================================
+/* =====================================
    REPEAT
-================================= */
+===================================== */
 
 document.getElementById("repeat")
 .onclick = function() {
 
     repeatMode = (repeatMode+1)%3;
+
 
     this.classList.toggle(
         "active",
@@ -1552,6 +2247,7 @@ document.getElementById("repeat")
 
     }
 
+
     else if (repeatMode === 1) {
 
         this.textContent = "↻";
@@ -1559,6 +2255,7 @@ document.getElementById("repeat")
         status.textContent = "전체 앨범 반복";
 
     }
+
 
     else {
 
@@ -1571,23 +2268,24 @@ document.getElementById("repeat")
 };
 
 
-/* =================================
+/* =====================================
    SEARCH
-================================= */
+===================================== */
 
 document.getElementById("search")
 .addEventListener("input",drawTracks);
 
 
-/* =================================
+/* =====================================
    LOAD MUSIC
-================================= */
+===================================== */
 
 async function init() {
 
     try {
 
-        const response = await fetch(META);
+        const response = await fetch(AUDIO_META);
+
 
         if (!response.ok) {
 
@@ -1610,12 +2308,15 @@ async function init() {
 
 
         /*
-        MP3가 존재하면 MP3를 우선 사용하여
-        같은 곡의 여러 포맷이 중복되는 것을 방지
+        MP3 우선 사용
         */
 
         const mp3Files =
-            files.filter(file => /\.mp3$/i.test(file.name));
+
+            files.filter(file =>
+                /\.mp3$/i.test(file.name)
+            );
+
 
         if (mp3Files.length >= 22) {
 
@@ -1624,63 +2325,20 @@ async function init() {
         }
 
 
+        /*
+        숫자 기준 정렬
+        */
+
         songs = files.sort((a,b) =>
 
             a.name.localeCompare(
+
                 b.name,
+
                 undefined,
+
                 {
+
                     numeric:true,
+
                     sensitivity:"base"
-                }
-            )
-
-        ).slice(0,22);
-
-
-        if (!songs.length) {
-
-            throw new Error("No audio files");
-
-        }
-
-
-        drawTracks();
-
-
-        document.querySelector(".album-label")
-            .textContent =
-            "✦ " + songs.length +
-            " TRACKS · ORIGINAL SOUNDTRACK";
-
-
-        status.textContent =
-            "총 " + songs.length +
-            "곡의 음악이 준비되었습니다.";
-
-
-    }
-
-    catch(error) {
-
-        console.error(error);
-
-        status.textContent =
-            "음원 목록을 불러오지 못했습니다.";
-
-    }
-
-}
-
-
-/* =================================
-   START
-================================= */
-
-init();
-
-</script>
-
-</body>
-
-</html>
