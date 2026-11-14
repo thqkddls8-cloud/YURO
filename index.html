@@ -1185,4 +1185,1051 @@ function getTrackImage(number) {
    CINEMATIC IMAGE ENGINE
 ===================================== */
 
-function showVisual(src, finalShot =
+function showVisual(src, finalShot = false) {
+
+    const layers = [
+
+        document.getElementById("visualA"),
+
+        document.getElementById("visualB")
+
+    ];
+
+    visualFrame.classList.toggle(
+        "final-shot",
+        finalShot
+    );
+
+    if (src === currentVisualSrc) {
+
+        currentFinalShot = finalShot;
+
+        return;
+
+    }
+
+    const oldLayer = layers[activeLayer];
+
+    const nextLayer = layers[1-activeLayer];
+
+    let completed = false;
+
+    function reveal() {
+
+        if (completed) return;
+
+        completed = true;
+
+        requestAnimationFrame(() => {
+
+            nextLayer.classList.add("visible");
+
+            oldLayer.classList.remove("visible");
+
+        });
+
+    }
+
+    nextLayer.onload = reveal;
+
+    nextLayer.onerror = function() {
+
+        this.onerror = null;
+
+        this.src = "images/album-cover.png";
+
+        currentVisualSrc = "images/album-cover.png";
+
+        reveal();
+
+    };
+
+    nextLayer.src = src;
+
+    if (nextLayer.complete && nextLayer.naturalWidth > 0) {
+
+        reveal();
+
+    }
+
+    activeLayer = 1-activeLayer;
+
+    currentVisualSrc = src;
+
+    currentFinalShot = finalShot;
+
+    document.getElementById("visualCaption")
+        .textContent = finalShot
+        ? "RETURN TO ORIGIN"
+        : "THE DIVINE JOURNEY";
+
+}
+
+
+/* =====================================
+   IMAGE SEQUENCE
+===================================== */
+
+function updateSlideshow() {
+
+    if (index < 0) return;
+
+    const duration = audio.duration;
+
+    const currentTime = audio.currentTime;
+
+    let imageNumber;
+
+    let finalShot = false;
+
+
+    if (
+
+        Number.isFinite(duration) &&
+
+        duration > 0 &&
+
+        duration-currentTime <= FINAL_IMAGE_SECONDS
+
+    ) {
+
+        imageNumber = index+1;
+
+        finalShot = true;
+
+    }
+
+    else {
+
+        const step = Math.floor(
+            currentTime/IMAGE_INTERVAL
+        );
+
+        imageNumber =
+            ((index+step)%IMAGE_COUNT)+1;
+
+    }
+
+    showVisual(
+        getTrackImage(imageNumber),
+        finalShot
+    );
+
+}
+
+
+/* =====================================
+   LRC PARSER
+===================================== */
+
+function parseLRC(text) {
+
+    const result = [];
+
+    let offset = 0;
+
+    const lines = text.replace(/^\uFEFF/,"").split(/\r?\n/);
+
+
+    for (const line of lines) {
+
+        const offsetMatch =
+            line.match(/^\[offset:([+-]?\d+)\]/i);
+
+        if (offsetMatch) {
+
+            offset = Number(offsetMatch[1])/1000;
+
+            continue;
+
+        }
+
+        const matches = [
+            ...line.matchAll(
+                /\[(\d{1,2}):(\d{2})(?:[.:](\d{1,3}))?\]/g
+            )
+        ];
+
+        if (!matches.length) continue;
+
+
+        const lyricText = line.replace(
+            /\[\d{1,2}:\d{2}(?:[.:]\d{1,3})?\]/g,
+            ""
+        ).trim();
+
+
+        if (!lyricText) continue;
+
+
+        for (const match of matches) {
+
+            const minutes = Number(match[1]);
+
+            const seconds = Number(match[2]);
+
+            const fraction = Number(
+                "0." + (match[3] || "0").padEnd(3,"0")
+            );
+
+            const time =
+                Math.max(
+                    0,
+                    minutes*60 + seconds + fraction + offset
+                );
+
+            result.push({
+
+                time: time,
+
+                text: lyricText
+
+            });
+
+        }
+
+    }
+
+
+    return result.sort(
+        (a,b) => a.time-b.time
+    );
+
+}
+
+
+/* =====================================
+   LOAD LYRICS
+===================================== */
+
+async function loadLyrics(trackNumber) {
+
+    const token = ++lyricsRequestToken;
+
+    activeLyricIndex = -1;
+
+    lyricsData = [];
+
+    lyricsLines.innerHTML = "";
+
+    lyricsWindow.scrollTop = 0;
+
+    document.getElementById("lyricsTitle")
+        .textContent = "TRACK " +
+        String(trackNumber).padStart(2,"0");
+
+
+    lyricsMessage.style.display = "block";
+
+    lyricsMessage.textContent =
+        "천상의 가사를 불러오는 중입니다.";
+
+
+    const fileName =
+        "track-" +
+        String(trackNumber).padStart(2,"0") +
+        ".lrc";
+
+
+    const url =
+        "lyrics/" + fileName + "?v=" + Date.now();
+
+
+    try {
+
+        let text;
+
+        if (lyricsCache.has(trackNumber)) {
+
+            text = lyricsCache.get(trackNumber);
+
+        }
+
+        else {
+
+            const response = await fetch(url);
+
+            if (!response.ok) {
+
+                throw new Error("LRC file not found");
+
+            }
+
+            text = await response.text();
+
+            lyricsCache.set(trackNumber,text);
+
+        }
+
+
+        if (token !== lyricsRequestToken) return;
+
+
+        lyricsData = parseLRC(text);
+
+
+        if (!lyricsData.length) {
+
+            throw new Error("No timed lyrics");
+
+        }
+
+
+        renderLyrics();
+
+
+        const titleMatch =
+            text.match(/^\[ti:(.*?)\]/mi);
+
+
+        document.getElementById("lyricsTitle")
+            .textContent =
+            titleMatch
+            ? titleMatch[1]
+            : "TRACK " +
+                String(trackNumber).padStart(2,"0");
+
+
+        lyricsMessage.style.display = "none";
+
+
+        updateLyrics();
+
+
+    }
+
+    catch(error) {
+
+        if (token !== lyricsRequestToken) return;
+
+        console.warn(error);
+
+        lyricsMessage.style.display = "block";
+
+        lyricsMessage.textContent =
+
+            "아직 이 곡의 가사 파일이 준비되지 않았습니다.";
+
+    }
+
+}
+
+
+/* =====================================
+   RENDER LYRICS
+===================================== */
+
+function renderLyrics() {
+
+    lyricsLines.innerHTML = "";
+
+
+    lyricsData.forEach((line,i) => {
+
+        const element = document.createElement("div");
+
+        element.className = "lyric-line";
+
+        element.textContent = line.text;
+
+        element.dataset.index = i;
+
+        lyricsLines.appendChild(element);
+
+    });
+
+}
+
+
+/* =====================================
+   SYNC LYRICS
+===================================== */
+
+function updateLyrics() {
+
+    if (!lyricsData.length) return;
+
+
+    const time = audio.currentTime;
+
+    let low = 0;
+
+    let high = lyricsData.length-1;
+
+    let active = -1;
+
+
+    while (low <= high) {
+
+        const mid = Math.floor((low+high)/2);
+
+        if (lyricsData[mid].time <= time) {
+
+            active = mid;
+
+            low = mid+1;
+
+        }
+
+        else {
+
+            high = mid-1;
+
+        }
+
+    }
+
+
+    if (active === activeLyricIndex) return;
+
+
+    activeLyricIndex = active;
+
+
+    const elements =
+        lyricsLines.querySelectorAll(".lyric-line");
+
+
+    elements.forEach((element,i) => {
+
+        element.classList.remove(
+            "active",
+            "past",
+            "future"
+        );
+
+
+        if (i === active) {
+
+            element.classList.add("active");
+
+        }
+
+        else if (i < active) {
+
+            element.classList.add("past");
+
+        }
+
+        else {
+
+            element.classList.add("future");
+
+        }
+
+    });
+
+
+    if (active >= 0) {
+
+        const currentElement = elements[active];
+
+        const viewportRect =
+            lyricsWindow.getBoundingClientRect();
+
+        const elementRect =
+            currentElement.getBoundingClientRect();
+
+
+        const contentTop =
+            elementRect.top -
+            viewportRect.top +
+            lyricsWindow.scrollTop;
+
+
+        const target =
+            contentTop -
+            lyricsWindow.clientHeight*0.48;
+
+
+        lyricsWindow.scrollTo({
+
+            top: Math.max(0,target),
+
+            behavior: audio.paused
+                ? "auto"
+                : "smooth"
+
+        });
+
+    }
+
+}
+
+
+/* =====================================
+   TRACK LIST
+===================================== */
+
+function getName(filename) {
+
+    return filename
+        .split("/")
+        .pop()
+        .replace(/\.[^.]+$/,"")
+        .replace(/[_-]+/g," ");
+
+}
+
+
+function drawTracks() {
+
+    tracksElement.innerHTML = "";
+
+
+    songs.forEach((song,i) => {
+
+        const row = document.createElement("div");
+
+        row.className = "track";
+
+        if (i === index) {
+
+            row.classList.add("active");
+
+        }
+
+
+        const image = document.createElement("img");
+
+        image.className = "track-thumb";
+
+        image.src = getTrackImage(i+1);
+
+        image.onerror = function() {
+
+            this.onerror = null;
+
+            this.src = "images/album-cover.png";
+
+        };
+
+
+        const number = document.createElement("div");
+
+        number.className = "track-number";
+
+        number.textContent =
+            String(i+1).padStart(2,"0");
+
+
+        const name = document.createElement("div");
+
+        name.className = "track-name";
+
+        name.textContent = getName(song.name);
+
+
+        const button = document.createElement("button");
+
+        button.textContent =
+            i === index && !audio.paused
+            ? "재생 중"
+            : "재생";
+
+
+        button.onclick = () => play(i);
+
+
+        row.append(
+            image,
+            number,
+            name,
+            button
+        );
+
+
+        tracksElement.appendChild(row);
+
+    });
+
+}
+
+
+/* =====================================
+   PLAY
+===================================== */
+
+async function play(i) {
+
+    if (!songs.length) return;
+
+    if (i < 0 || i >= songs.length) return;
+
+
+    index = i;
+
+    audio.pause();
+
+
+    audio.src = AUDIO_BASE +
+        songs[i].name
+        .split("/")
+        .map(encodeURIComponent)
+        .join("/");
+
+
+    audio.load();
+
+
+    const title = getName(songs[i].name);
+
+
+    document.getElementById("current")
+        .textContent = title;
+
+
+    document.getElementById("currentTrackTitle")
+        .textContent = title;
+
+
+    document.getElementById("playerArtwork")
+        .src = getTrackImage(i+1);
+
+
+    showVisual(getTrackImage(i+1));
+
+
+    lyricsWindow.scrollTop = 0;
+
+
+    loadLyrics(i+1);
+
+
+    drawTracks();
+
+
+    document.getElementById("seek").value = 0;
+
+    document.getElementById("elapsed").textContent = "0:00";
+
+
+    document.getElementById("status")
+        .textContent =
+        "NOW PLAYING · " +
+        (i+1) + " / " + songs.length;
+
+
+    try {
+
+        await audio.play();
+
+    }
+
+    catch(error) {
+
+        console.error(error);
+
+        document.getElementById("status")
+            .textContent =
+            "재생 버튼을 눌러 음악을 시작해 주세요.";
+
+    }
+
+}
+
+
+/* =====================================
+   OPEN ALBUM
+===================================== */
+
+function openAlbum() {
+
+    document.getElementById("album")
+        .scrollIntoView({
+            behavior:"smooth"
+        });
+
+    if (songs.length && index === -1) {
+
+        play(0);
+
+    }
+
+}
+
+
+/* =====================================
+   PLAY PAUSE
+===================================== */
+
+function togglePlay() {
+
+    if (index === -1) {
+
+        play(0);
+
+        return;
+
+    }
+
+
+    if (audio.paused) {
+
+        audio.play().catch(console.error);
+
+    }
+
+    else {
+
+        audio.pause();
+
+    }
+
+}
+
+
+/* =====================================
+   NEXT
+===================================== */
+
+async function next() {
+
+    if (!songs.length) return;
+
+
+    let nextIndex;
+
+
+    if (shuffled && songs.length > 1) {
+
+        do {
+
+            nextIndex =
+                Math.floor(Math.random()*songs.length);
+
+        }
+
+        while(nextIndex === index);
+
+    }
+
+    else if (index < songs.length-1) {
+
+        nextIndex = index+1;
+
+    }
+
+    else if (repeatMode === 1) {
+
+        nextIndex = 0;
+
+    }
+
+    else {
+
+        audio.pause();
+
+        return;
+
+    }
+
+
+    await play(nextIndex);
+
+}
+
+
+/* =====================================
+   PREVIOUS
+===================================== */
+
+async function previous() {
+
+    if (index < 0) return;
+
+
+    if (audio.currentTime > 3) {
+
+        audio.currentTime = 0;
+
+        updateSlideshow();
+
+        updateLyrics();
+
+        return;
+
+    }
+
+
+    if (index > 0) {
+
+        await play(index-1);
+
+    }
+
+    else if (repeatMode === 1) {
+
+        await play(songs.length-1);
+
+    }
+
+}
+
+
+/* =====================================
+   AUDIO EVENTS
+===================================== */
+
+audio.addEventListener("play",function() {
+
+    document.getElementById("playBtn")
+        .textContent = "Ⅱ";
+
+    drawTracks();
+
+});
+
+
+audio.addEventListener("pause",function() {
+
+    document.getElementById("playBtn")
+        .textContent = "▶";
+
+    drawTracks();
+
+});
+
+
+audio.addEventListener("timeupdate",function() {
+
+    if (!audio.duration) return;
+
+
+    if (!isSeeking) {
+
+        document.getElementById("seek").value =
+            audio.currentTime/audio.duration*1000;
+
+    }
+
+
+    document.getElementById("elapsed")
+        .textContent = formatTime(audio.currentTime);
+
+
+    updateSlideshow();
+
+    updateLyrics();
+
+});
+
+
+audio.addEventListener("loadedmetadata",function() {
+
+    document.getElementById("duration")
+        .textContent = formatTime(audio.duration);
+
+    updateSlideshow();
+
+});
+
+
+audio.addEventListener("seeked",function() {
+
+    updateSlideshow();
+
+    updateLyrics();
+
+});
+
+
+/* AUTO NEXT */
+
+audio.addEventListener("ended",async function() {
+
+    if (repeatMode === 2) {
+
+        audio.currentTime = 0;
+
+        await audio.play();
+
+        updateSlideshow();
+
+        updateLyrics();
+
+        return;
+
+    }
+
+    await next();
+
+});
+
+
+/* =====================================
+   SEEK
+===================================== */
+
+const seek = document.getElementById("seek");
+
+
+seek.addEventListener("input",function() {
+
+    isSeeking = true;
+
+});
+
+
+seek.addEventListener("change",function() {
+
+    if (audio.duration) {
+
+        audio.currentTime =
+            seek.value/1000*audio.duration;
+
+    }
+
+    isSeeking = false;
+
+    updateSlideshow();
+
+    updateLyrics();
+
+});
+
+
+/* =====================================
+   VOLUME
+===================================== */
+
+document.getElementById("volume")
+.addEventListener("input",function(e) {
+
+    audio.volume = Number(e.target.value);
+
+});
+
+audio.volume = 0.8;
+
+
+/* =====================================
+   SHUFFLE
+===================================== */
+
+document.getElementById("shuffle")
+.onclick = function() {
+
+    shuffled = !shuffled;
+
+    this.style.color =
+        shuffled ? "#ffffff" : "#d7bc7c";
+
+};
+
+
+/* =====================================
+   REPEAT
+===================================== */
+
+document.getElementById("repeat")
+.onclick = function() {
+
+    repeatMode = (repeatMode+1)%3;
+
+    this.textContent =
+        repeatMode === 2 ? "↻¹" : "↻";
+
+    this.style.color =
+        repeatMode ? "#ffffff" : "#d7bc7c";
+
+};
+
+
+/* =====================================
+   LOAD MUSIC
+===================================== */
+
+async function init() {
+
+    try {
+
+        const response = await fetch(AUDIO_META);
+
+        if (!response.ok) {
+
+            throw new Error("Audio metadata error");
+
+        }
+
+
+        const data = await response.json();
+
+
+        let files = (data.files || []).filter(file =>
+
+            file.name &&
+
+            /\.(mp3|m4a|aac|ogg|oga|wav|flac)$/i
+                .test(file.name)
+
+        );
+
+
+        const mp3Files =
+            files.filter(file =>
+                /\.mp3$/i.test(file.name)
+            );
+
+
+        if (mp3Files.length >= 22) {
+
+            files = mp3Files;
+
+        }
+
+
+        songs = files.sort((a,b) =>
+
+            a.name.localeCompare(
+                b.name,
+                undefined,
+                {
+                    numeric:true,
+                    sensitivity:"base"
+                }
+            )
+
+        ).slice(0,22);
+
+
+        if (!songs.length) {
+
+            throw new Error("No audio files");
+
+        }
+
+
+        drawTracks();
+
+
+        document.getElementById("status")
+            .textContent =
+            "총 " + songs.length +
+            "곡의 음악이 준비되었습니다.";
+
+
+    }
+
+    catch(error) {
+
+        console.error(error);
+
+        document.getElementById("status")
+            .textContent =
+            "음원 목록을 불러오지 못했습니다.";
+
+    }
+
+}
+
+
+/* START */
+
+init();
+
+
+</script>
+
+</body>
+</html>
