@@ -2,6 +2,7 @@
 <html lang="ko">
 
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#090b13">
@@ -11,13 +12,14 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Noto+Serif+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Noto+Serif+KR:wght@400;500;600;700&family=Great+Vibes&display=swap" rel="stylesheet">
+
 
 <style>
 
-/* =========================
-   GLOBAL
-========================= */
+/* =================================
+   BASIC
+================================= */
 
 * {
     box-sizing: border-box;
@@ -26,9 +28,9 @@
 :root {
     --gold: #d8b66c;
     --gold-light: #f4dfaa;
-    --gold-dark: #80602d;
     --dark: #080a12;
     --text: #f7edd4;
+    --neon: #c8ff00;
 }
 
 html {
@@ -45,16 +47,13 @@ body {
 
 button {
     font-family: inherit;
-}
-
-button,
-input {
     -webkit-tap-highlight-color: transparent;
 }
 
-/* =========================
+
+/* =================================
    COSMIC BACKGROUND
-========================= */
+================================= */
 
 body::before {
     content: "";
@@ -70,7 +69,7 @@ body::before {
     ),
     linear-gradient(
         180deg,
-        #111523,
+        #141b30,
         #090b13 65%,
         #05060b
     );
@@ -95,18 +94,14 @@ body::before {
 }
 
 @keyframes starMove {
-    from {
-        transform: translateY(0);
-    }
-
-    to {
-        transform: translateY(-280px);
-    }
+    from { transform: translateY(0); }
+    to { transform: translateY(-280px); }
 }
 
-/* =========================
+
+/* =================================
    HERO
-========================= */
+================================= */
 
 .hero {
     position: relative;
@@ -118,17 +113,7 @@ body::before {
 
     text-align: center;
     overflow: hidden;
-
-    background:
-    linear-gradient(
-        180deg,
-        rgba(5,7,15,.05),
-        rgba(5,7,15,.3) 55%,
-        #090b13 100%
-    );
 }
-
-/* Fantasy temple illustration */
 
 .hero-art {
     position: absolute;
@@ -162,22 +147,120 @@ body::before {
     z-index: 2;
 
     width: 100%;
-    padding: 100px 20px 120px;
+    padding: 80px 20px 120px;
 }
 
+
+/* =================================
+   TIKTOK NEON LINK
+================================= */
+
+.tiktok-link {
+
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 12px;
+
+    padding: 17px 34px;
+
+    margin-bottom: 32px;
+
+    border: 1px solid var(--neon);
+
+    border-radius: 50px;
+
+    background: rgba(10,20,0,.8);
+
+    color: var(--neon);
+
+    text-decoration: none;
+
+    font-family: 'Noto Serif KR', serif;
+
+    font-size: clamp(16px, 2.5vw, 21px);
+
+    font-weight: 700;
+
+    letter-spacing: 2px;
+
+    text-shadow:
+        0 0 5px var(--neon),
+        0 0 15px rgba(200,255,0,.7);
+
+    box-shadow:
+        0 0 8px rgba(200,255,0,.5),
+        0 0 22px rgba(200,255,0,.3),
+        inset 0 0 12px rgba(200,255,0,.12);
+
+    animation: neonGlow 2.2s ease-in-out infinite;
+
+    transition: .3s;
+}
+
+.tiktok-link:hover {
+
+    transform: scale(1.06);
+
+    background: rgba(100,140,0,.25);
+
+    box-shadow:
+        0 0 15px var(--neon),
+        0 0 35px rgba(200,255,0,.7);
+
+}
+
+.tiktok-link .sparkle {
+    font-size: 22px;
+}
+
+.tiktok-link .arrow {
+    font-size: 22px;
+}
+
+@keyframes neonGlow {
+
+    0%, 100% {
+        box-shadow:
+        0 0 8px rgba(200,255,0,.4),
+        0 0 18px rgba(200,255,0,.25);
+    }
+
+    50% {
+        box-shadow:
+        0 0 15px rgba(200,255,0,.8),
+        0 0 35px rgba(200,255,0,.5);
+    }
+
+}
+
+
+/* =================================
+   TITLE
+================================= */
+
 .eyebrow {
+
     font-family: 'Cinzel', serif;
+
     font-size: 12px;
+
     letter-spacing: 7px;
 
     color: var(--gold);
+
     text-shadow: 0 0 20px rgba(230,190,100,.5);
+
 }
 
 .hero h1 {
-    margin: 32px 0 12px;
+
+    margin: 30px 0 12px;
 
     font-size: clamp(36px, 7vw, 76px);
+
     font-weight: 500;
 
     letter-spacing: 7px;
@@ -185,11 +268,13 @@ body::before {
     color: #fff0ca;
 
     text-shadow:
-    0 0 15px rgba(255,220,150,.35),
-    0 0 50px rgba(218,174,87,.3);
+        0 0 15px rgba(255,220,150,.35),
+        0 0 50px rgba(218,174,87,.3);
+
 }
 
 .english-title {
+
     font-family: 'Cinzel', serif;
 
     font-size: clamp(15px, 3vw, 23px);
@@ -197,21 +282,92 @@ body::before {
     letter-spacing: 8px;
 
     color: var(--gold-light);
+
 }
 
-.creator-credit {
-    margin-top: 23px;
 
-    font-size: 13px;
-    letter-spacing: 2px;
+/* =================================
+   CREATOR SIGNATURE
+================================= */
+
+.creator-credit {
+
+    margin-top: 27px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 15px;
+
+    flex-wrap: wrap;
 
     color: #e2c990;
 
-    text-shadow: 0 0 15px rgba(218,174,87,.4);
+    font-size: 13px;
+
+    letter-spacing: 2px;
+
+}
+
+.signature {
+
+    position: relative;
+
+    display: inline-block;
+
+    font-family: 'Great Vibes', cursive;
+
+    font-size: clamp(30px, 5vw, 43px);
+
+    font-weight: 400;
+
+    letter-spacing: 1px;
+
+    color: #ffe7a8;
+
+    text-shadow:
+        0 0 5px #fff0c5,
+        0 0 15px rgba(235,195,105,.8),
+        0 0 30px rgba(235,195,105,.4);
+
+    padding: 0 10px 7px;
+
+}
+
+.signature::after {
+
+    content: "";
+
+    position: absolute;
+
+    left: 5%;
+
+    bottom: 0;
+
+    width: 90%;
+
+    height: 2px;
+
+    background:
+    linear-gradient(
+        90deg,
+        transparent,
+        #f5d48d,
+        #fff2c8,
+        transparent
+    );
+
+    border-radius: 50%;
+
 }
 
 .divider {
+
     width: 120px;
+
     height: 1px;
 
     margin: 30px auto;
@@ -223,42 +379,56 @@ body::before {
         var(--gold),
         transparent
     );
+
 }
 
 .album-label {
+
     font-family: 'Cinzel', serif;
 
     font-size: 11px;
+
     letter-spacing: 5px;
 
     color: #c9b27c;
+
 }
 
 .track-total {
+
     margin-top: 12px;
 
     font-family: 'Cinzel', serif;
 
     font-size: 12px;
+
     letter-spacing: 4px;
 
     color: #e7d7ad;
+
 }
 
-/* =========================
+
+/* =================================
    BUTTONS
-========================= */
+================================= */
 
 .main-buttons {
+
     margin-top: 42px;
 
     display: flex;
+
     justify-content: center;
+
     gap: 15px;
+
     flex-wrap: wrap;
+
 }
 
 .gold-button {
+
     padding: 15px 32px;
 
     border: 1px solid #e2c47d;
@@ -273,21 +443,25 @@ body::before {
     color: #17120a;
 
     font-size: 12px;
+
     letter-spacing: 3px;
 
     cursor: pointer;
 
     transition: .3s;
+
 }
 
 .gold-button:hover {
+
     transform: translateY(-3px);
 
-    box-shadow:
-    0 0 20px rgba(224,185,100,.45);
+    box-shadow: 0 0 20px rgba(224,185,100,.45);
+
 }
 
 .outline-button {
+
     padding: 15px 28px;
 
     border: 1px solid rgba(220,190,120,.6);
@@ -297,68 +471,89 @@ body::before {
     color: #e8d6a7;
 
     font-size: 12px;
+
     letter-spacing: 2px;
 
     cursor: pointer;
+
 }
 
-.outline-button:hover {
-    background: rgba(210,170,90,.15);
-}
 
-/* =========================
-   ALBUM CONTENT
-========================= */
+/* =================================
+   ALBUM
+================================= */
 
 main {
+
     width: min(900px, 92%);
+
     margin: auto;
+
 }
 
 .album-section {
+
     padding: 75px 0 200px;
+
 }
 
 .section-heading {
+
     text-align: center;
+
     margin-bottom: 35px;
+
 }
 
 .section-heading h2 {
+
     font-family: 'Cinzel', serif;
 
     font-size: 23px;
+
     font-weight: 400;
 
     letter-spacing: 7px;
 
     color: var(--gold-light);
+
 }
 
 .section-heading p {
+
     font-size: 11px;
+
     letter-spacing: 4px;
+
     color: #9c8960;
+
 }
 
 #status {
+
     text-align: center;
 
     margin: 20px 0;
 
     font-size: 12px;
+
     color: var(--gold);
+
 }
 
-/* =========================
+
+/* =================================
    SEARCH
-========================= */
+================================= */
 
 .search-box {
+
     margin: 30px 0;
+
 }
 
 .search-box input {
+
     width: 100%;
 
     padding: 15px 18px;
@@ -372,22 +567,24 @@ main {
     outline: none;
 
     font-family: inherit;
+
 }
 
-.search-box input:focus {
-    border-color: var(--gold);
-}
 
-/* =========================
+/* =================================
    TRACK LIST
-========================= */
+================================= */
 
 #tracks {
+
     border-top: 1px solid rgba(215,180,100,.3);
+
 }
 
 .track {
+
     display: flex;
+
     align-items: center;
 
     gap: 17px;
@@ -397,17 +594,23 @@ main {
     border-bottom: 1px solid rgba(215,180,100,.12);
 
     transition: .25s;
+
 }
 
 .track:hover {
+
     background: rgba(215,180,100,.07);
+
 }
 
 .track.active {
+
     background: rgba(215,180,100,.12);
+
 }
 
 .track-number {
+
     min-width: 28px;
 
     font-family: 'Cinzel', serif;
@@ -415,27 +618,37 @@ main {
     font-size: 13px;
 
     color: #a98b50;
+
 }
 
 .track-name {
+
     flex: 1;
 
     font-size: 13px;
+
     color: #e9dfc7;
 
     overflow-wrap: anywhere;
+
 }
 
 .track.active .track-name {
+
     color: #f4d88e;
+
 }
 
 .track-duration {
+
     font-size: 11px;
+
     color: #897b60;
+
 }
 
 .track button {
+
     border: 1px solid rgba(210,180,110,.4);
 
     background: transparent;
@@ -445,23 +658,22 @@ main {
     padding: 8px 15px;
 
     cursor: pointer;
+
 }
 
-.track button:hover {
-    background: var(--gold);
-    color: #111;
-}
 
-/* =========================
+/* =================================
    PLAYER
-========================= */
+================================= */
 
 .player {
+
     position: fixed;
 
     z-index: 100;
 
     bottom: 0;
+
     left: 0;
 
     width: 100%;
@@ -475,54 +687,77 @@ main {
     backdrop-filter: blur(20px);
 
     box-shadow: 0 -10px 40px rgba(0,0,0,.5);
+
 }
 
 .player-inner {
+
     max-width: 850px;
+
     margin: auto;
+
 }
 
 .player-title {
+
     text-align: center;
 
     font-size: 12px;
+
     color: var(--gold-light);
 
     margin-bottom: 12px;
 
     overflow-wrap: anywhere;
+
 }
 
 .progress-area {
+
     display: flex;
+
     align-items: center;
+
     gap: 12px;
 
     font-size: 10px;
+
     color: #9b8a67;
+
 }
 
 input[type=range] {
+
     accent-color: #d8b66c;
+
     cursor: pointer;
+
 }
 
 #seek {
+
     flex: 1;
+
 }
 
 .controls {
+
     display: flex;
+
     align-items: center;
+
     justify-content: center;
 
     gap: 23px;
 
     margin: 12px 0;
+
 }
 
 .controls button {
+
     background: none;
+
     border: none;
 
     color: #d7bc7c;
@@ -530,10 +765,13 @@ input[type=range] {
     font-size: 21px;
 
     cursor: pointer;
+
 }
 
 .controls .play-button {
+
     width: 48px;
+
     height: 48px;
 
     border-radius: 50%;
@@ -548,33 +786,46 @@ input[type=range] {
     color: #15100a;
 
     font-size: 20px;
+
 }
 
 .controls button.active {
+
     color: white;
+
     text-shadow: 0 0 12px #e6c77e;
+
 }
 
 .volume-area {
+
     display: flex;
+
     justify-content: center;
+
     align-items: center;
 
     gap: 10px;
 
     color: #a89468;
+
     font-size: 10px;
+
 }
 
 #volume {
+
     width: 100px;
+
 }
 
-/* =========================
+
+/* =================================
    FOOTER
-========================= */
+================================= */
 
 footer {
+
     text-align: center;
 
     padding: 35px 15px 200px;
@@ -582,23 +833,32 @@ footer {
     font-family: 'Cinzel', serif;
 
     font-size: 10px;
+
     letter-spacing: 4px;
 
     color: #82704b;
+
 }
 
-/* =========================
+
+/* =================================
    MOBILE
-========================= */
+================================= */
 
 @media(max-width:600px) {
 
     .hero {
-        min-height: 750px;
+        min-height: 780px;
     }
 
     .hero-content {
-        padding: 80px 15px;
+        padding: 65px 15px 100px;
+    }
+
+    .tiktok-link {
+        padding: 15px 23px;
+        margin-bottom: 28px;
+        letter-spacing: 1px;
     }
 
     .hero h1 {
@@ -610,8 +870,14 @@ footer {
     }
 
     .creator-credit {
+        flex-direction: column;
+        gap: 8px;
         font-size: 11px;
         letter-spacing: 1px;
+    }
+
+    .signature {
+        font-size: 38px;
     }
 
     .main-buttons {
@@ -652,15 +918,18 @@ footer {
 }
 
 </style>
+
 </head>
+
 
 <body>
 
 <div class="stars"></div>
 
-<!-- =========================
-     MAIN FANTASY WORLD
-========================= -->
+
+<!-- =================================
+     FANTASY HERO
+================================= -->
 
 <section class="hero">
 
@@ -684,7 +953,7 @@ xmlns="http://www.w3.org/2000/svg">
 <stop offset="100%" stop-color="#b18b43" stop-opacity="0"/>
 </radialGradient>
 
-<linearGradient id="gold" x1="0" y1="0" x2="1" y2="1">
+<linearGradient id="gold">
 <stop offset="0%" stop-color="#fff0b9"/>
 <stop offset="50%" stop-color="#c9a45b"/>
 <stop offset="100%" stop-color="#74502a"/>
@@ -701,11 +970,8 @@ xmlns="http://www.w3.org/2000/svg">
 
 </defs>
 
-<!-- Sky -->
 
 <rect width="1200" height="900" fill="url(#sky)"/>
-
-<!-- Divine light -->
 
 <circle cx="600" cy="280" r="250"
 fill="url(#sun)" opacity=".9"/>
@@ -718,7 +984,6 @@ stroke-width="2" opacity=".6"/>
 fill="none" stroke="#d4b16b"
 stroke-width="1" opacity=".4"/>
 
-<!-- Rays -->
 
 <g fill="#e8cf94" opacity=".09">
 
@@ -729,7 +994,6 @@ stroke-width="1" opacity=".4"/>
 
 </g>
 
-<!-- Stars -->
 
 <g fill="#fff1c7">
 
@@ -744,34 +1008,30 @@ stroke-width="1" opacity=".4"/>
 
 </g>
 
-<!-- Mountains -->
 
 <path d="M0 650 L170 450 L330 630
 L480 440 L650 640 L820 460
 L1020 650 L1200 470 L1200 900 L0 900Z"
 fill="#171b28"/>
 
-<!-- Clouds -->
 
-<g fill="#9d8d72" opacity=".16"
-filter="url(#blur)">
+<g fill="#9d8d72" opacity=".16" filter="url(#blur)">
 
 <ellipse cx="200" cy="640" rx="300" ry="80"/>
 <ellipse cx="900" cy="630" rx="350" ry="90"/>
 
 </g>
 
-<!-- Temple foundation -->
 
 <path d="M330 640 L870 640
 L960 900 L240 900Z"
 fill="#302a32"/>
 
-<!-- Temple stairs -->
 
 <path d="M420 630 L780 630
 L830 900 L370 900Z"
 fill="#514338"/>
+
 
 <path d="M450 670 L750 670"
 stroke="url(#gold)" stroke-width="4"/>
@@ -782,24 +1042,22 @@ stroke="url(#gold)" stroke-width="3"/>
 <path d="M390 800 L810 800"
 stroke="url(#gold)" stroke-width="3"/>
 
-<!-- Temple roof -->
 
 <path d="M300 420 L600 220
 L900 420Z"
 fill="url(#temple)"
 stroke="#e0bf78" stroke-width="4"/>
 
+
 <path d="M350 420 L600 275
 L850 420Z"
 fill="#191c2a"/>
 
-<!-- Main building -->
 
 <rect x="390" y="420" width="420" height="250"
 fill="#242331"
 stroke="#c5a466" stroke-width="3"/>
 
-<!-- Columns -->
 
 <g fill="url(#temple)"
 stroke="#d4b778" stroke-width="3">
@@ -811,7 +1069,6 @@ stroke="#d4b778" stroke-width="3">
 
 </g>
 
-<!-- Divine gate -->
 
 <path d="M550 670 L550 470
 Q600 390 650 470 L650 670Z"
@@ -822,7 +1079,6 @@ stroke-width="4"/>
 <circle cx="600" cy="510" r="27"
 fill="url(#sun)"/>
 
-<!-- Floating light -->
 
 <g fill="#f2d99b">
 
@@ -838,42 +1094,80 @@ fill="url(#sun)"/>
 
 </div>
 
+
 <div class="hero-content">
+
+
+<!-- TIKTOK LIGHT LINK -->
+
+<a
+class="tiktok-link"
+href="https://lite.tiktok.com/t/ZS9fbRJaQQMyB-zyyLd/"
+target="_blank"
+rel="noopener noreferrer"
+>
+
+<span class="sparkle">✦</span>
+
+틱톡라이트 바로가기
+
+<span class="arrow">↗</span>
+
+</a>
+
 
 <div class="eyebrow">
 THE DIVINE REALM
 </div>
 
+
 <h1>신을 대신한 신</h1>
+
 
 <div class="english-title">
 THE GOD BEYOND GOD
 </div>
 
+
+<!-- CREATOR SIGNATURE -->
+
 <div class="creator-credit">
-밀리의 서재 - 글빛탐험가 sang hyuk. Yoo
+
+<span>
+밀리의 서재 - 글빛탐험가
+</span>
+
+<span class="signature">
+sang hyuk. Yoo
+</span>
+
 </div>
 
+
 <div class="divider"></div>
+
 
 <div class="album-label">
 SPECIAL ORIGINAL SOUNDTRACK
 </div>
 
+
 <div class="track-total">
 ✦ 22 TRACKS ✦
 </div>
 
+
 <div class="main-buttons">
 
-<button class="gold-button"
-onclick="playAll()">
+<button class="gold-button" onclick="playAll()">
 ✦ PLAY ENTIRE ALBUM
 </button>
 
 <button class="outline-button"
 onclick="document.getElementById('album').scrollIntoView()">
+
 VIEW TRACK LIST
+
 </button>
 
 </div>
@@ -883,9 +1177,9 @@ VIEW TRACK LIST
 </section>
 
 
-<!-- =========================
-     TRACK LIST
-========================= -->
+<!-- =================================
+     ALBUM TRACKS
+================================= -->
 
 <main>
 
@@ -899,9 +1193,11 @@ VIEW TRACK LIST
 
 </div>
 
+
 <div id="status">
 음원 목록을 불러오는 중입니다.
 </div>
+
 
 <div class="search-box">
 
@@ -913,8 +1209,8 @@ placeholder="수록곡 검색..."
 
 </div>
 
-<div id="tracks">
-</div>
+
+<div id="tracks"></div>
 
 </section>
 
@@ -929,14 +1225,23 @@ THE GOD BEYOND GOD
 
 A JOURNEY BEYOND THE DIVINE
 
+<br><br>
+
+✦ sang hyuk. Yoo ✦
+
 </footer>
 
 
-<!-- =========================
-     MUSIC PLAYER
-========================= -->
+<!-- =================================
+     AUDIO
+================================= -->
 
 <audio id="audio" preload="metadata"></audio>
+
+
+<!-- =================================
+     PLAYER
+================================= -->
 
 <div class="player">
 
@@ -945,6 +1250,7 @@ A JOURNEY BEYOND THE DIVINE
 <div class="player-title" id="current">
 음악을 선택해 주세요
 </div>
+
 
 <div class="progress-area">
 
@@ -962,13 +1268,14 @@ value="0"
 
 </div>
 
+
 <div class="controls">
 
 <button id="shuffle" title="셔플">
 ⤨
 </button>
 
-<button onclick="previous()">
+<button onclick="previous()" title="이전 곡">
 ⏮
 </button>
 
@@ -978,7 +1285,7 @@ id="playBtn">
 ▶
 </button>
 
-<button onclick="next()">
+<button onclick="next()" title="다음 곡">
 ⏭
 </button>
 
@@ -987,6 +1294,7 @@ id="playBtn">
 </button>
 
 </div>
+
 
 <div class="volume-area">
 
@@ -1010,9 +1318,9 @@ value="0.8"
 
 <script>
 
-/* =========================
+/* =================================
    INTERNET ARCHIVE
-========================= */
+================================= */
 
 const ID =
 "15-the-god-beyond-god-part-14-forgotten-name";
@@ -1023,6 +1331,7 @@ const BASE =
 const META =
 "https://archive.org/metadata/" + ID;
 
+
 const audio =
 document.getElementById("audio");
 
@@ -1032,18 +1341,27 @@ document.getElementById("tracks");
 const status =
 document.getElementById("status");
 
+
 let songs = [];
+
 let index = -1;
 
 let shuffled = false;
+
+/*
+0 = 반복 없음
+1 = 전체 앨범 반복
+2 = 한 곡 반복
+*/
+
 let repeatMode = 0;
 
 let isSeeking = false;
 
 
-/* =========================
+/* =================================
    UTILITIES
-========================= */
+================================= */
 
 function makeURL(filename) {
 
@@ -1053,6 +1371,7 @@ function makeURL(filename) {
         .join("/");
 
 }
+
 
 function getName(filename) {
 
@@ -1064,11 +1383,13 @@ function getName(filename) {
 
 }
 
+
 function formatTime(seconds) {
 
     if (!Number.isFinite(seconds)) return "0:00";
 
     const m = Math.floor(seconds / 60);
+
     const s = Math.floor(seconds % 60);
 
     return m + ":" + String(s).padStart(2,"0");
@@ -1076,9 +1397,9 @@ function formatTime(seconds) {
 }
 
 
-/* =========================
-   TRACK DISPLAY
-========================= */
+/* =================================
+   DRAW TRACKS
+================================= */
 
 function drawTracks() {
 
@@ -1147,17 +1468,23 @@ function drawTracks() {
 }
 
 
-/* =========================
+/* =================================
    PLAY MUSIC
-========================= */
+================================= */
 
 async function play(i) {
 
     if (!songs.length) return;
 
+    if (i < 0 || i >= songs.length) return;
+
     index = i;
 
+    audio.pause();
+
     audio.src = makeURL(songs[i].name);
+
+    audio.load();
 
     document.getElementById("current")
         .textContent = getName(songs[i].name);
@@ -1168,11 +1495,19 @@ async function play(i) {
 
     drawTracks();
 
+    document.getElementById("seek").value = 0;
+
+    document.getElementById("elapsed").textContent = "0:00";
+
+    document.getElementById("duration").textContent = "0:00";
+
     try {
 
         await audio.play();
 
-    } catch(e) {
+    } catch(error) {
+
+        console.error(error);
 
         status.textContent =
             "재생할 수 없습니다. 다시 시도해 주세요.";
@@ -1182,9 +1517,9 @@ async function play(i) {
 }
 
 
-/* =========================
+/* =================================
    PLAY ALL
-========================= */
+================================= */
 
 function playAll() {
 
@@ -1195,9 +1530,9 @@ function playAll() {
 }
 
 
-/* =========================
+/* =================================
    PLAY / PAUSE
-========================= */
+================================= */
 
 function togglePlay() {
 
@@ -1211,7 +1546,9 @@ function togglePlay() {
 
     if (audio.paused) {
 
-        audio.play().catch(() => {});
+        audio.play().catch(error => {
+            console.error(error);
+        });
 
     } else {
 
@@ -1222,59 +1559,71 @@ function togglePlay() {
 }
 
 
-/* =========================
-   NEXT
-========================= */
+/* =================================
+   NEXT TRACK
+================================= */
 
-function next() {
+async function next() {
 
     if (!songs.length) return;
 
-    if (shuffled && songs.length > 1) {
+    if (index === -1) {
+        await play(0);
+        return;
+    }
 
-        let random;
+    let nextIndex;
+
+    if (shuffled && songs.length > 1) {
 
         do {
 
-            random = Math.floor(
+            nextIndex = Math.floor(
                 Math.random() * songs.length
             );
 
-        } while(random === index);
+        } while(nextIndex === index);
 
-        play(random);
+    }
+
+    else if (index < songs.length - 1) {
+
+        nextIndex = index + 1;
+
+    }
+
+    else if (repeatMode === 1) {
+
+        nextIndex = 0;
+
+    }
+
+    else {
+
+        audio.pause();
+
+        status.textContent =
+            "앨범의 모든 음악을 감상했습니다.";
+
+        document.getElementById("current")
+            .textContent = "THE END";
 
         return;
 
     }
 
-    if (index < songs.length-1) {
-
-        play(index+1);
-
-    } else if (repeatMode === 1) {
-
-        play(0);
-
-    } else {
-
-        audio.pause();
-
-        status.textContent =
-            "앨범 재생이 끝났습니다.";
-
-    }
+    await play(nextIndex);
 
 }
 
 
-/* =========================
-   PREVIOUS
-========================= */
+/* =================================
+   PREVIOUS TRACK
+================================= */
 
-function previous() {
+async function previous() {
 
-    if (!songs.length) return;
+    if (!songs.length || index === -1) return;
 
     if (audio.currentTime > 3) {
 
@@ -1286,22 +1635,55 @@ function previous() {
 
     if (index > 0) {
 
-        play(index-1);
+        await play(index-1);
 
-    } else if (repeatMode === 1) {
+    }
 
-        play(songs.length-1);
+    else if (repeatMode === 1) {
+
+        await play(songs.length-1);
 
     }
 
 }
 
 
-/* =========================
-   AUDIO EVENTS
-========================= */
+/* =================================
+   AUTOMATIC NEXT
+================================= */
 
-audio.addEventListener("play", () => {
+audio.addEventListener("ended", async function() {
+
+    console.log("곡 종료 - 다음 곡 자동 재생");
+
+    if (repeatMode === 2) {
+
+        audio.currentTime = 0;
+
+        try {
+
+            await audio.play();
+
+        } catch(error) {
+
+            console.error(error);
+
+        }
+
+        return;
+
+    }
+
+    await next();
+
+});
+
+
+/* =================================
+   AUDIO EVENTS
+================================= */
+
+audio.addEventListener("play", function() {
 
     document.getElementById("playBtn")
         .textContent = "Ⅱ";
@@ -1310,7 +1692,8 @@ audio.addEventListener("play", () => {
 
 });
 
-audio.addEventListener("pause", () => {
+
+audio.addEventListener("pause", function() {
 
     document.getElementById("playBtn")
         .textContent = "▶";
@@ -1319,7 +1702,8 @@ audio.addEventListener("pause", () => {
 
 });
 
-audio.addEventListener("timeupdate", () => {
+
+audio.addEventListener("timeupdate", function() {
 
     if (!audio.duration || isSeeking) return;
 
@@ -1334,51 +1718,41 @@ audio.addEventListener("timeupdate", () => {
 
 });
 
-audio.addEventListener("loadedmetadata", () => {
+
+audio.addEventListener("loadedmetadata", function() {
 
     document.getElementById("duration").textContent =
         formatTime(audio.duration);
 
 });
 
-audio.addEventListener("ended", () => {
 
-    if (repeatMode === 2) {
+audio.addEventListener("error", function() {
 
-        audio.currentTime = 0;
-
-        audio.play().catch(() => {});
-
-    } else {
-
-        next();
-
-    }
-
-});
-
-audio.addEventListener("error", () => {
+    if (!audio.src) return;
 
     status.textContent =
-        "음원 재생 오류가 발생했습니다.";
+        "음원 파일을 불러오지 못했습니다.";
 
 });
 
 
-/* =========================
+/* =================================
    SEEK
-========================= */
+================================= */
 
 const seek =
     document.getElementById("seek");
 
-seek.addEventListener("input", () => {
+
+seek.addEventListener("input", function() {
 
     isSeeking = true;
 
 });
 
-seek.addEventListener("change", () => {
+
+seek.addEventListener("change", function() {
 
     if (audio.duration) {
 
@@ -1392,12 +1766,12 @@ seek.addEventListener("change", () => {
 });
 
 
-/* =========================
+/* =================================
    VOLUME
-========================= */
+================================= */
 
 document.getElementById("volume")
-.addEventListener("input", e => {
+.addEventListener("input", function(e) {
 
     audio.volume = Number(e.target.value);
 
@@ -1406,9 +1780,9 @@ document.getElementById("volume")
 audio.volume = 0.8;
 
 
-/* =========================
+/* =================================
    SHUFFLE
-========================= */
+================================= */
 
 document.getElementById("shuffle")
 .onclick = function() {
@@ -1417,42 +1791,65 @@ document.getElementById("shuffle")
 
     this.classList.toggle("active",shuffled);
 
+    status.textContent = shuffled
+        ? "셔플 재생 활성화"
+        : "일반 순서 재생";
+
 };
 
 
-/* =========================
+/* =================================
    REPEAT
-========================= */
+================================= */
 
 document.getElementById("repeat")
 .onclick = function() {
 
     repeatMode = (repeatMode+1)%3;
 
-    this.textContent =
-        repeatMode === 0 ? "↻" :
-        repeatMode === 1 ? "↻" :
-        "↻¹";
-
     this.classList.toggle(
         "active",
         repeatMode !== 0
     );
 
+    if (repeatMode === 0) {
+
+        this.textContent = "↻";
+
+        status.textContent = "반복 재생 꺼짐";
+
+    }
+
+    else if (repeatMode === 1) {
+
+        this.textContent = "↻";
+
+        status.textContent = "전체 앨범 반복";
+
+    }
+
+    else {
+
+        this.textContent = "↻¹";
+
+        status.textContent = "현재 곡 반복";
+
+    }
+
 };
 
 
-/* =========================
+/* =================================
    SEARCH
-========================= */
+================================= */
 
 document.getElementById("search")
 .addEventListener("input",drawTracks);
 
 
-/* =========================
+/* =================================
    LOAD ALBUM
-========================= */
+================================= */
 
 async function init() {
 
@@ -1461,7 +1858,9 @@ async function init() {
         const response = await fetch(META);
 
         if (!response.ok) {
+
             throw new Error("Metadata error");
+
         }
 
         const data = await response.json();
@@ -1469,22 +1868,33 @@ async function init() {
         songs = (data.files || [])
 
             .filter(file =>
+
                 file.name &&
+
                 /\.(mp3|m4a|aac|ogg|oga|wav|flac)$/i
                 .test(file.name) &&
+
                 !file.name.startsWith("__")
+
             )
 
             .sort((a,b) =>
+
                 a.name.localeCompare(
+
                     b.name,
+
                     undefined,
+
                     {
                         numeric:true,
                         sensitivity:"base"
                     }
+
                 )
+
             );
+
 
         if (!songs.length) {
 
@@ -1492,17 +1902,25 @@ async function init() {
 
         }
 
+
         document.querySelector(".track-total")
             .textContent =
             "✦ " + songs.length + " TRACKS ✦";
 
+
         drawTracks();
+
 
         status.textContent =
             "총 " + songs.length +
             "곡의 음악이 준비되었습니다.";
 
-    } catch(error) {
+
+    }
+
+    catch(error) {
+
+        console.error(error);
 
         status.textContent =
             "앨범 음원을 불러오지 못했습니다.";
@@ -1514,9 +1932,15 @@ async function init() {
 
 }
 
+
+/* =================================
+   START
+================================= */
+
 init();
 
 </script>
 
 </body>
+
 </html>
