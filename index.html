@@ -2342,3 +2342,61 @@ async function init() {
                     numeric:true,
 
                     sensitivity:"base"
+
+                }
+
+            )
+
+        ).slice(0,22);
+
+
+        if (!songs.length) {
+
+            throw new Error("No audio files");
+
+        }
+
+
+        drawTracks();
+
+
+        document.querySelector(".album-label")
+            .textContent =
+
+            "✦ " + songs.length +
+            " TRACKS · ORIGINAL SOUNDTRACK";
+
+
+        status.textContent =
+
+            "총 " + songs.length +
+            "곡의 음악이 준비되었습니다.";
+
+
+    }
+
+    catch(error) {
+
+        console.error(error);
+
+        status.textContent =
+
+            "음원 목록을 불러오지 못했습니다.";
+
+    }
+
+}
+
+
+/* =====================================
+   START
+===================================== */
+
+init();
+
+
+</script>
+
+</body>
+
+</html>
